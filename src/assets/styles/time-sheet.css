@@ -50,6 +50,12 @@ body {
   grid-template-columns: 2fr 1fr;
   box-shadow: 0px 1px 6px 0px #0000001a;
   padding: 11px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1300;
+  background-color: #fff;
 }
 
 .nav-bar-section .nav-left-section {
@@ -173,6 +179,28 @@ body {
   cursor: pointer;
 }
 
+.main-content-sec {
+  margin-left: 65px;
+  /* padding: 30px; */
+  margin-top: 56px;
+}
+
+.side-bar-section {
+  background-color: #ebecf0;
+  padding: 16px;
+  position: fixed;
+  bottom: 0;
+  top: 56px;
+  padding-top: 20px;
+  text-align: center;
+  border-right: 1px solid #c0c0c1;
+}
+
+.side-bar-section .side-menu-btn-sec {
+  margin-bottom: 17px;
+  cursor: pointer;
+}
+
 .log-time-modal {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -214,4 +242,97 @@ body {
   position: fixed;
   display: none;
   padding-top: 70px;
+  z-index: 1600;
+}
+
+.log-date-sec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 11px;
+  padding: 26px;
+}
+
+.log-date-left-sec,
+.log-date-right-sec {
+  display: flex;
+  align-items: center;
+}
+
+.log-date-right-sec .action-btn {
+  border: 1px solid #c0c0c1;
+  background-color: white;
+  outline: none;
+  cursor: pointer;
+  padding: 7px;
+  border-radius: 3px;
+  margin-left: 20px;
+  display: grid;
+  place-items: center;
+}
+
+.log-date-right-sec .action-btn img {
+  transform: rotate(90deg) scale(1.1);
+}
+
+.profile-name {
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+.table-section {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.table-container {
+  overflow-x: scroll;
+}
+
+.table-section .table-head {
+  background-color: white;
+  border-top: 1px solid #c0c0c1;
+  border-bottom: 1px solid #c0c0c1;
+  border-right: 1px solid #c0c0c1;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #6b778c;
+  text-align: left;
+}
+
+.table-section .table-cell {
+  background-color: white;
+  border-top: 1px solid #c0c0c1;
+  border-bottom: 1px solid #c0c0c1;
+  border-right: 1px solid #c0c0c1;
+  padding: 9px;
+  white-space: nowrap;
+}
+
+.date-head-sec {
+  text-align: center;
+}
+
+.date-head-sec .date-week-head {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.date-head-sec .date-day-head {
+  font-size: 14.5px;
+  font-weight: 500;
+}
+
+.date-head-sec .date-day-head.current-selected-day{
+  background-color: #DEEBFF;
+  border: 1px solid #4C9AFF;
+  display: block;
+  padding: 1.5px 6px;
+  width: fit-content;
+  margin: auto;
+  border-radius: 8px;
+  color: #4C9AFF;
 }

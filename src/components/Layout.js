@@ -7,7 +7,10 @@ const Layout = ({ children }) => {
     <div>
       <NavBar />
       <SideBar />
+
+      <div  className="main-content-sec">
       {children}
+      </div>
     </div>
   );
 };
