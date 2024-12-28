@@ -1,113 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LogTimeModal from "./LogTimeModal";
 import TimeGridTable from "./TimeGridTable";
 import profileLogo from "../assets/images/profile-icon.svg";
 import actionBtnLogo from "../assets/images/action-btn-icon.svg";
-import { DateRangePicker } from "rsuite";
-import "rsuite/DateRangePicker/styles/index.css";
+import DateRangeField from "./fieldComponents/DateRangeField";
 
 const HomePage = () => {
+  const columnHeaderData = [
+    "Issue",
+    "Logged",
+    "MON-1",
+    "TUE-2",
+    "WED-3",
+    "THU-3",
+    "FRI-4",
+    "SAT-5",
+    "SUN-6",
+    "MON-7",
+    "TUE-8",
+    "WED-9",
+    "THU-10",
+    "FRI-11",
+    "SAT-12",
+    "SUN-13",
+    "MON-14",
+    "TUE-15",
+    "WED-16",
+    "THU-17",
+    "FRI-18",
+    "SAT-19",
+    "SUN-20",
+  ];
   const [logTimeModal, setLogTimeModal] = useState(false);
   const [logTableData, setLogTableData] = useState({
-    columns: [
-      "Issue",
-      "Logged",
-      "MON-1",
-      "TUE-2",
-      "Wed-3",
-      "THU-3",
-      "FRI-4",
-      "SAT-5",
-      "SUN-6",
-      "MON-7",
-      "TUE-8",
-      "Wed-9",
-      "THU-10",
-      "FRI-11",
-      "SAT-12",
-      "SUN-13",
-      "MON-14",
-      "TUE-15",
-      "Wed-16",
-      "THU-17",
-      "FRI-18",
-    ],
-    rows: [
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-      {
-        issues: "ATL-0011 Issue summary",
-        logged: "4.5",
-      },
-    ],
+    columns: columnHeaderData,
+    rows: [],
   });
 
   const onCloseModal = () => {
     setLogTimeModal(false);
   };
+
+  useEffect(() => {
+    let dateRowsObj = {};
+    let rowLogData = [];
+    for (const key in logTableData.columns) {
+      if (
+        logTableData.columns[key].split("-")[1] == "1" ||
+        logTableData.columns[key].split("-")[1] == "10" ||
+        logTableData.columns[key].split("-")[1] == "17"
+      ) {
+        dateRowsObj[logTableData.columns[key]] = "4.5";
+      } else if (
+        logTableData.columns[key] !== "Issue" &&
+        logTableData.columns[key] !== "Logged"
+      ) {
+        dateRowsObj[logTableData.columns[key]] = "";
+      }
+    }
+    for (let index = 0; index < 16; index++) {
+      rowLogData.push({
+        issues: "ATL-0011 Issue summary",
+        logged: "4.5",
+        ...dateRowsObj,
+      });
+    }
+    setLogTableData({ ...logTableData, rows: rowLogData });
+  }, []);
 
   return (
     <div>
@@ -127,10 +86,11 @@ const HomePage = () => {
           </button>
         </div>
       </div>
-
-      <DateRangePicker showHeader={false} format="MM/dd/yyyy" character=" – " />
-      <LogTimeModal open={logTimeModal} closeModal={onCloseModal} />
+      <div>
+        <DateRangeField />
+      </div>
       <TimeGridTable tableData={logTableData} />
+      <LogTimeModal open={logTimeModal} closeModal={onCloseModal} />
     </div>
   );
 };

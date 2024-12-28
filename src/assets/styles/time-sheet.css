@@ -287,14 +287,17 @@ body {
 }
 
 .table-container {
-  overflow-x: scroll;
+  overflow-x: auto;
+}
+
+.table-data-row:hover {
+  background-color: #e9f2ff;
 }
 
 .table-section .table-head {
-  background-color: white;
-  border-top: 1px solid #c0c0c1;
-  border-bottom: 1px solid #c0c0c1;
-  border-right: 1px solid #c0c0c1;
+  border-top: 1px solid #ebecf0;
+  border-bottom: 1px solid #ebecf0;
+  border-right: 1px solid #ebecf0;
   padding: 8px;
   font-size: 13px;
   font-weight: 400;
@@ -303,12 +306,23 @@ body {
 }
 
 .table-section .table-cell {
-  background-color: white;
-  border-top: 1px solid #c0c0c1;
-  border-bottom: 1px solid #c0c0c1;
-  border-right: 1px solid #c0c0c1;
-  padding: 9px;
+  border-top: 1px solid #ebecf0;
+  border-bottom: 1px solid #ebecf0;
+  border-right: 1px solid #ebecf0;
+  padding: 12px 10px;
   white-space: nowrap;
+  font-size: 13px;
+  font-weight: 400;
+  color: #6b778c;
+}
+
+.text-center-cell {
+  text-align: center !important;
+}
+
+.log-table-txt {
+  font-weight: 500 !important;
+  color: #172b4d !important;
 }
 
 .date-head-sec {
@@ -317,7 +331,7 @@ body {
 
 .date-head-sec .date-week-head {
   display: block;
-  font-size: 11px;
+  font-size: 10px;
   margin-bottom: 5px;
 }
 
@@ -326,13 +340,102 @@ body {
   font-weight: 500;
 }
 
-.date-head-sec .date-day-head.current-selected-day{
-  background-color: #DEEBFF;
-  border: 1px solid #4C9AFF;
+.date-head-sec .date-day-head.current-selected-day {
+  background-color: #deebff;
+  border: 1px solid #4c9aff;
   display: block;
   padding: 1.5px 6px;
   width: fit-content;
   margin: auto;
   border-radius: 8px;
-  color: #4C9AFF;
+  color: #4c9aff;
+}
+
+.datepicker-range-sec {
+  box-shadow: 0px 1px 6px 0px #0000001a;
+  padding: 20px;
+  background-color: #fff;
+  position: absolute;
+}
+
+.date-inner-range-sec {
+  display: flex;
+}
+
+.date-range-input-sec {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.data-range-calendar-sec {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.data-range-calendar-sec .month-sec .month-head-sec {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date-navigate-btn {
+  border-width: 0px;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.date-navigate-btn.prev {
+  transform: rotate(180deg);
+}
+
+.date-month-txt {
+  cursor: pointer;
+}
+
+.data-range-calendar-sec .month-sec .day-sec {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.data-range-calendar-sec .month-sec .day-sec .days-btn {
+  padding: 10px;
+  font-size: 14px;
+  color: #172b4d;
+  cursor: pointer;
+  text-align: center;
+}
+
+.data-range-calendar-sec .month-sec .day-sec .days-btn.selected {
+  background-color: #344563 !important;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.data-range-calendar-sec .month-sec .day-sec .days-btn.ranges-selected {
+  background-color: #deebff;
+}
+
+.apply-date-sec {
+  justify-content: end;
+  display: flex;
+}
+
+.month-year-select-panel {
+  max-width: 600px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.month-panel-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.month-panel-grid .month-btn {
+  padding: 8px;
+  cursor: pointer;
 }
