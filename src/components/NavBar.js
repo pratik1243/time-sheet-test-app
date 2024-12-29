@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import jiraNavLogo from "../assets/images/jira-logo.svg";
 import menuBtnLogo from "../assets/images/menu-btn.svg";
 import notificationLogo from "../assets/images/notification-icon.svg";
@@ -7,13 +7,14 @@ import profileLogo from "../assets/images/profile-icon.svg";
 import settingLogo from "../assets/images/settings-icon.svg";
 import searchIcon from "../assets/images/search-icon.svg";
 
-
 const NavBar = () => {
+  const [showDropDown, setShowDropDown] = useState(false);
+
   return (
     <div className="nav-bar-section">
       <div className="nav-left-section">
         <div className="nav-logo-sec">
-          <button className="menu-btn">
+          <button className="menu-btn" onClick={() => setShowDropDown(!showDropDown)}>
             <img src={menuBtnLogo} alt="menu-btn" className="menu-btn-icon" />
           </button>
 
@@ -26,20 +27,27 @@ const NavBar = () => {
               <a>Your work</a>
             </li>
             <li className="menu-btn-sec">
-              <a>Projects <div className="dropdown-icon"></div></a>
-              
+              <a>
+                Projects <div className="dropdown-icon"></div>
+              </a>
             </li>
             <li className="menu-btn-sec">
-              <a>Filters <div className="dropdown-icon"></div></a>
+              <a>
+                Filters <div className="dropdown-icon"></div>
+              </a>
             </li>
             <li className="menu-btn-sec">
-              <a>Dashboards <div className="dropdown-icon"></div></a>
+              <a>
+                Dashboards <div className="dropdown-icon"></div>
+              </a>
             </li>
             <li className="menu-btn-sec">
               <a>People</a>
             </li>
             <li className="menu-btn-sec">
-              <a>Apps <div className="dropdown-icon"></div></a>
+              <a>
+                Apps <div className="dropdown-icon"></div>
+              </a>
             </li>
             <li>
               <button className="primary-btn create-btn">Create</button>
@@ -56,7 +64,7 @@ const NavBar = () => {
           <button className="menu-btn">
             <img src={notificationLogo} alt="menu-btn" />
           </button>
-        
+
           <button className="menu-btn">
             <img src={questionLogo} alt="menu-btn" />
           </button>
@@ -68,6 +76,41 @@ const NavBar = () => {
           </div>
         </div>
       </div>
+      {showDropDown && (
+        <div className="nav-menu-btn-sec responsive-dropdown-sec">
+          <ul className="menu-btn-list">
+            <li className="menu-btn-sec">
+              <a>Your work</a>
+            </li>
+            <li className="menu-btn-sec">
+              <a>
+                Projects <div className="dropdown-icon"></div>
+              </a>
+            </li>
+            <li className="menu-btn-sec">
+              <a>
+                Filters <div className="dropdown-icon"></div>
+              </a>
+            </li>
+            <li className="menu-btn-sec">
+              <a>
+                Dashboards <div className="dropdown-icon"></div>
+              </a>
+            </li>
+            <li className="menu-btn-sec">
+              <a>People</a>
+            </li>
+            <li className="menu-btn-sec">
+              <a>
+                Apps <div className="dropdown-icon"></div>
+              </a>
+            </li>
+            <li>
+              <button className="primary-btn create-btn">Create</button>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

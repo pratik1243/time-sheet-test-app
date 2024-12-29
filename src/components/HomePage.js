@@ -4,6 +4,7 @@ import TimeGridTable from "./TimeGridTable";
 import profileLogo from "../assets/images/profile-icon.svg";
 import actionBtnLogo from "../assets/images/action-btn-icon.svg";
 import DateRangeField from "./fieldComponents/DateRangeField";
+import dropDownIcon from "../assets/images/dropdown-icon.svg";
 
 const HomePage = () => {
   const columnHeaderData = [
@@ -75,8 +76,10 @@ const HomePage = () => {
           <img src={profileLogo} />
           <span className="profile-name">Divya Shah</span>
         </div>
-
         <div className="log-date-right-sec">
+          <button className="date-selection-btn">
+            Days <img src={dropDownIcon} />
+          </button>
           <button className="primary-btn" onClick={() => setLogTimeModal(true)}>
             Log Time
           </button>
@@ -86,8 +89,12 @@ const HomePage = () => {
           </button>
         </div>
       </div>
-      <div>
+      <div className="date-range-filter-sec">
         <DateRangeField />
+
+        <div className="group-by-sec">
+          <div className="group-btn">issue </div>
+        </div>
       </div>
       <TimeGridTable tableData={logTableData} />
       <LogTimeModal open={logTimeModal} closeModal={onCloseModal} />

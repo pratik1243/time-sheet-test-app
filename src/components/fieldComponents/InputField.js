@@ -1,11 +1,11 @@
 import React from 'react'
 
-const InputField = ({ label, value, placeholder, endIcon = null }) => {
+const InputField = ({ label, value, placeholder, endIcon = null, readOnly = null }) => {
   return (
-    <div>
+    <div className='text-field-sec'>
         <label>{label}</label>
-        <input type="text" value={value} placeholder={placeholder} className='input-field' />
-        {endIcon && endIcon}
+        <input type="text" value={value} placeholder={placeholder} readOnly={readOnly} className='input-field' />
+        {endIcon && <img src={endIcon} className='input-field-endicon' /> }
     </div>
   )
 }

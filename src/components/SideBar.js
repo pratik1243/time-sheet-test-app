@@ -3,6 +3,7 @@ import clockSidebarLogo from "../assets/images/clock-sidebar-icon.svg";
 import settingSidebarLogo from "../assets/images/setings-sidebar-icon.svg";
 import groupSidebarLogo from "../assets/images/group-sidebar-icon.svg";
 import fileSidebarLogo from "../assets/images/file-sidebar-icon.svg";
+import helpSidebarIcon from "../assets/images/help-sidebar-icon.svg";
 
 const SideBar = () => {
   const sideNavItems = [
@@ -30,6 +31,8 @@ const SideBar = () => {
           </div>
         );
       })}
+
+      <img src={helpSidebarIcon} className="help-sidebar-icon" />
     </div>
   );
 };

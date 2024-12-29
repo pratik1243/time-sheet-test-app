@@ -8,6 +8,14 @@ body {
   box-sizing: border-box;
 }
 
+.pr-1 {
+  padding-right: 10px;
+}
+
+.pl-1 {
+  padding-left: 10px;
+}
+
 .primary-btn {
   background-color: #0052cc;
   color: #fff;
@@ -32,13 +40,23 @@ body {
   font-size: 14px;
 }
 
+.text-field-sec {
+  position: relative;
+}
+
 .input-field {
-  padding: 11px;
+  padding: 13px;
   width: 100%;
   border: 2px solid #dfe1e6;
   border-radius: 4px;
-  font-size: 15px;
+  font-size: 14px;
   outline: none;
+}
+
+.input-field-endicon {
+  position: absolute;
+  top: 11px;
+  right: -18px;
 }
 
 .full-grid {
@@ -79,6 +97,10 @@ body {
   border-radius: 50%;
   height: 34px;
   margin-right: 9px;
+}
+
+.nav-menu-btn-sec.responsive-dropdown-sec {
+  display: none;
 }
 
 .nav-logo-sec .menu-btn:hover {
@@ -201,11 +223,19 @@ body {
   cursor: pointer;
 }
 
+.help-sidebar-icon {
+  position: absolute;
+  bottom: 13px;
+  left: 19px;
+  height: 23px;
+  cursor: pointer;
+}
+
 .log-time-modal {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
-  width: 38%;
+  width: 600px;
   background-color: #fff;
   border-radius: 8px;
   padding: 30px 40px;
@@ -275,6 +305,27 @@ body {
   transform: rotate(90deg) scale(1.1);
 }
 
+.log-date-right-sec .date-selection-btn {
+  border: 1px solid #ebecf0;
+  background-color: white;
+  outline: none;
+  cursor: pointer;
+  padding: 9.5px;
+  border-radius: 3px;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  min-width: 75px;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-right: 20px;
+  color: #42526e;
+}
+
+.log-date-right-sec .date-selection-btn img {
+  transform: rotate(90deg);
+}
+
 .profile-name {
   margin-left: 10px;
   font-size: 15px;
@@ -303,26 +354,58 @@ body {
   font-weight: 400;
   color: #6b778c;
   text-align: left;
+  background-color: #fff;
 }
 
 .table-section .table-cell {
   border-top: 1px solid #ebecf0;
   border-bottom: 1px solid #ebecf0;
   border-right: 1px solid #ebecf0;
-  padding: 12px 10px;
+  padding: 12px 13px;
   white-space: nowrap;
   font-size: 13px;
   font-weight: 400;
   color: #6b778c;
 }
 
+.table-section .table-cell:hover {
+  background-color: #b3d4ff;
+}
+
 .text-center-cell {
   text-align: center !important;
+}
+
+.issues-txt-sec {
+  display: flex;
+  align-items: center;
+}
+
+.issues-txt-sec img {
+  margin-right: 9px;
+}
+
+.issues-txt-sec .txt-1 {
+  font-size: 13px;
+  margin-right: 10px;
+  color: #6b778c;
+  font-weight: 500;
+}
+
+.issues-txt-sec .txt-2 {
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .log-table-txt {
   font-weight: 500 !important;
   color: #172b4d !important;
+}
+
+.total-table-txt {
+  font-size: 15px;
+  color: #172b4d;
+  font-weight: 500;
 }
 
 .date-head-sec {
@@ -351,20 +434,35 @@ body {
   color: #4c9aff;
 }
 
+.date-range-picker {
+  position: relative;
+  width: 260px;
+}
+
 .datepicker-range-sec {
-  box-shadow: 0px 1px 6px 0px #0000001a;
-  padding: 20px;
   background-color: #fff;
   position: absolute;
+  border-radius: 11px;
+  box-shadow: 0px 3px 5px 0px #091e4233;
+  overflow-x: auto;
+  z-index: 1200;
+  top: 40px;
 }
 
 .date-inner-range-sec {
   display: flex;
+  padding: 20px;
+  width: 771px;
 }
 
 .date-range-input-sec {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.date-range-input-sec .input-sec {
+  padding-right: 29px;
 }
 
 .data-range-calendar-sec {
@@ -376,6 +474,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 19px 0px;
 }
 
 .date-navigate-btn {
@@ -385,12 +484,37 @@ body {
   cursor: pointer;
 }
 
+.date-navigate-btn img {
+  height: 12px;
+}
+
 .date-navigate-btn.prev {
   transform: rotate(180deg);
 }
 
 .date-month-txt {
   cursor: pointer;
+  color: #344563;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.date-month-txt:hover {
+  color: #0052cc;
+}
+
+.week-head-sec {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 9px;
+}
+
+.week-head-sec span {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b778c;
 }
 
 .data-range-calendar-sec .month-sec .day-sec {
@@ -404,6 +528,10 @@ body {
   color: #172b4d;
   cursor: pointer;
   text-align: center;
+}
+.data-range-calendar-sec .month-sec .day-sec .days-btn:hover {
+  outline: 1px solid #c7daf8;
+  box-sizing: content-box;
 }
 
 .data-range-calendar-sec .month-sec .day-sec .days-btn.selected {
@@ -419,6 +547,16 @@ body {
 .apply-date-sec {
   justify-content: end;
   display: flex;
+  border-top: 1px solid #f4f5f7;
+  padding: 18px 20px;
+}
+
+.apply-date-sec .cancel-date-btn {
+  background-color: transparent;
+  margin-right: 11px;
+  color: #0747a6;
+  outline: none;
+  border-width: 0px;
 }
 
 .month-year-select-panel {
@@ -427,15 +565,205 @@ body {
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 10px;
+}
+
+.year-day-select-section {
+  text-align: center;
+  border: 1px solid #deebff;
+  border-radius: 5px;
+}
+
+.year-day-select-section .year-txt {
+  font-size: 15px;
+  color: #0052cc;
+  display: block;
+  border-bottom: 1px solid #deebff;
+  padding: 6px 0px;
 }
 
 .month-panel-grid {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 4px;
 }
 
 .month-panel-grid .month-btn {
   padding: 8px;
   cursor: pointer;
+  font-size: 14px;
+  margin: 3px;
+}
+
+.month-panel-grid .month-btn:hover {
+  background-color: #ebecf0;
+  border-radius: 6px;
+  color: #4c9aff;
+}
+
+.custom-date-sec {
+  margin-left: 40px;
+  width: 180px;
+  border: 1px solid #f4f5f7;
+}
+
+.custom-date-sec .custom-type-btn {
+  font-size: 15px;
+  color: #0747a6;
+  cursor: pointer;
+  display: block;
+  margin: 12px 12px 12px 25px;
+}
+
+.date-range-picker .input-field-sec {
+  padding: 9px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+
+}
+
+.date-range-filter-sec {
+  padding: 0px 26px;
+}
+
+.input-navigate-btn {
+  border: 1px solid #dfe1e6;
+  background-color: white;
+  outline: none;
+  cursor: pointer;
+  padding: 9.5px;
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+    bottom: 0;
+    
+}
+
+.input-navigate-btn.prev{
+  left: 0;
+  left: 0px;
+    transform: rotateY(180deg);
+}
+
+.input-navigate-btn.next{
+  right: -20px;
+}
+
+@media (max-width: 1200px) {
+  .nav-bar-section {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .nav-bar-section .nav-left-section {
+    grid-template-columns: auto 2fr;
+  }
+
+  .nav-bar-section .nav-right-section {
+    margin-top: 21px;
+  }
+
+  .nav-menu-btn-sec .menu-btn-list {
+    justify-content: end;
+  }
+
+  .main-content-sec {
+    margin-top: 111px;
+  }
+
+  .side-bar-section {
+    top: 110px;
+  }
+}
+
+@media (max-width: 768px) {
+  .log-time-modal {
+    width: 82%;
+  }
+
+  .nav-menu-btn-sec {
+    display: none;
+  }
+
+  .nav-bar-section {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .nav-bar-section .nav-right-section {
+    margin-top: 0px;
+  }
+
+  .main-content-sec {
+    margin-top: 55px;
+  }
+
+  .side-bar-section {
+    top: 53px;
+  }
+}
+
+@media (max-width: 576px) {
+  .log-time-modal {
+    width: 70%;
+  }
+
+  .nav-menu-btn-sec.responsive-dropdown-sec {
+    position: absolute;
+    background-color: #fff;
+    left: 0;
+    right: 0;
+    z-index: 1200;
+    top: 56px;
+    box-shadow: 0px 1px 6px -1px #0000001a;
+    padding: 21px 0px;
+    display: block;
+  }
+
+  .nav-menu-btn-sec.responsive-dropdown-sec .menu-btn-list {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-btn-sec {
+    margin-bottom: 8px;
+  }
+
+  .create-btn {
+    margin-top: 17px;
+    margin-left: 0px;
+  }
+
+  .search-input-sec {
+    display: none;
+  }
+
+  .nav-right-menu-sec {
+    justify-content: end;
+  }
+
+  .log-date-sec {
+    flex-direction: column;
+    align-items: unset;
+  }
+
+  .log-date-right-sec {
+    margin-top: 20px;
+  }
+
+  .log-date-right-sec button {
+    margin-left: 0px !important;
+    margin-right: 20px;
+  }
+
+  .date-range-picker .input-field-sec {
+    width: 96%;
+  }
 }

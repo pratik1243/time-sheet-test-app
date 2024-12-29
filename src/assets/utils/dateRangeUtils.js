@@ -9,7 +9,7 @@ export const addDays = (days) => {
 export const dateFormat = (dateRangeArr, year, index) => {
   const day = dateRangeArr[index]?.split(" ")[1];
   const month = months[dateRangeArr[index]?.split(" ")[0]];
-  const dateValue = `${day.length == 1 ? `0${day}` : day}/${month}/${year}`;
+  const dateValue = dateRangeArr?.length > 0 ? `${day?.length == 1 ? `0${day}` : day}/${month}/${year}` : "MM/dd/yyyy";
   return dateValue;
 };
 
