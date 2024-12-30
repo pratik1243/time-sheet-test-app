@@ -4,7 +4,7 @@ import dropDownIcon from "../../assets/images/dropdown-icon.svg";
 import calendarIcon from "../../assets/images/calendar-icon.png";
 import { dateFormat, months, dates } from "../../assets/utils/dateRangeUtils";
 
-const DateRangeField = () => {
+const DateRangeField = ({ isSingleDateRange }) => {
   const currentDate = new Date()
     .toLocaleDateString("en-US", {
       year: "numeric",
@@ -101,8 +101,18 @@ const DateRangeField = () => {
   const monthyearSelect = (ele, i) => {
     let ind = i - 1;
     setYear(ele?.year);
-    setCalendar1(ind);
-    setCalendar2(ind + 1);
+
+    if(isSingleDateRange){
+      setCalendar1(ind + 1);
+    }else{
+      if (i == 0) {
+        setCalendar1(0);
+        setCalendar2(1);
+      } else {
+        setCalendar1(ind);
+        setCalendar2(ind + 1);
+      }
+    }    
     setShowMonthPanel(false);
   };
 
@@ -208,7 +218,11 @@ const DateRangeField = () => {
   }, []);
 
   useEffect(() => {
-    setDateRangePanel([dates[calendar1], dates[calendar2]]);
+    if (isSingleDateRange) {
+      setDateRangePanel([dates[calendar1]]);
+    } else {
+      setDateRangePanel([dates[calendar1], dates[calendar2]]);
+    }
   }, [calendar1, calendar2]);
 
   useEffect(() => {
@@ -245,7 +259,7 @@ const DateRangeField = () => {
       {openDateRange && (
         <div className="datepicker-range-sec">
           <div className="date-inner-range-sec">
-            <div>
+            <div className="date-range-panel">
               <div className="date-range-input-sec">
                 <div className="input-sec">
                   <InputField
@@ -296,7 +310,13 @@ const DateRangeField = () => {
                   {dateRangePanel?.map((date, index) => {
                     return (
                       <div
-                        className={`month-sec ${index == 0 ? "pr-1" : "pl-1"}`}
+                        className={`month-sec ${
+                          !isSingleDateRange
+                            ? index == 0
+                              ? "pr-1"
+                              : "pl-1"
+                            : ""
+                        }`}
                         key={index}
                       >
                         <div className="month-head-sec">
@@ -315,8 +335,16 @@ const DateRangeField = () => {
                           >
                             {date?.month} {year}
                           </span>
-                          {index == 0 && <div></div>}
+                          {!isSingleDateRange && index == 0 && <div></div>}
                           {index !== 0 && (
+                            <button
+                              onClick={nextDateFunc}
+                              className="date-navigate-btn next"
+                            >
+                              <img src={dropDownIcon} />
+                            </button>
+                          )}
+                          {isSingleDateRange && (
                             <button
                               onClick={nextDateFunc}
                               className="date-navigate-btn next"

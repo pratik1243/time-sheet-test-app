@@ -90,9 +90,14 @@ const HomePage = () => {
         </div>
       </div>
       <div className="date-range-filter-sec">
-        <div>
+        <div className="date-range-picker-desktop">
           <DateRangeField />
         </div>
+        <div className="date-range-picker-mobile">
+
+          <DateRangeField isSingleDateRange />
+        </div>
+
 
         <div className="group-by-sec">
           <span className="group-by-txt">Group by</span>

@@ -15,7 +15,6 @@
   position: absolute;
   border-radius: 11px;
   box-shadow: 0px 3px 9px 0px #091e4233;
-  overflow-x: auto;
   z-index: 1200;
   top: 40px;
 }
@@ -23,7 +22,6 @@
 .date-inner-range-sec {
   display: flex;
   padding: 20px;
-  width: 780px;
 }
 
 .date-inner-range-sec .text-field-sec {
@@ -142,6 +140,7 @@
   padding: 10px;
   border: 1px solid #deebff;
   border-radius: 4px;
+  width: 509px;
 }
 
 .year-day-select-section {
@@ -180,7 +179,7 @@
 
 .custom-date-sec {
   margin-left: 40px;
-  width: 100%;
+  width: 170px;
   border: 1px solid #f4f5f7;
 }
 
@@ -207,6 +206,7 @@
 .custom-days-field {
   margin-left: 25px;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .custom-days-field input {
@@ -225,6 +225,22 @@
   color: #344563;
 }
 
+.date-range-picker-mobile {
+  display: none;
+}
+
+@media (max-width: 390px) {
+  .date-inner-range-sec {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .datepicker-range-sec {
+    width: unset !important;
+  }
+}
+
 @media (max-width: 480px) {
   .date-range-picker .input-field-sec {
     font-size: 12px;
@@ -232,14 +248,40 @@
 }
 
 @media (max-width: 991px) {
-  .datepicker-range-sec {
-    width: 242%;
+  .custom-date-sec {
+    margin-top: 16px;
+    margin-left: 0px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
-}
 
-@media (max-width: 768px) {
-  .datepicker-range-sec {
-    width: 160%;
+  .custom-date-sec .custom-type-btn{
+    margin: 7px;
+  }
+
+  .date-inner-range-sec {
+    flex-direction: column;
+  }
+
+  .date-range-input-sec {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .month-year-select-panel {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .date-range-picker-mobile {
+    display: block;
+  }
+
+  .date-range-picker-desktop {
+    display: none;
+  }
+
+  .month-year-select-panel {
+    width: 234px;
   }
 }
 
@@ -249,7 +291,22 @@
   }
 
   .datepicker-range-sec {
-    width: 108%;
+    width: 113%;
   }
 
+  .date-range-panel {
+    flex: 100%;
+  }
+
+  .month-year-select-panel {
+    width: 94%;
+  }
+
+  .data-range-calendar-sec {
+    grid-template-columns: 1fr;
+  }
+
+  .month-panel-grid{
+    justify-content: unset;
+  }
 }

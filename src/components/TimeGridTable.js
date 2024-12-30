@@ -56,7 +56,7 @@ const TimeGridTable = ({ tableData }) => {
           return (
             <>
               {rowData.length - 1 === index ? (
-                <tr>
+                <tr key={index}>
                   {Object.values(rowData.map((el) => el)[index]).map(
                     (ele, i) => {
                       return (
