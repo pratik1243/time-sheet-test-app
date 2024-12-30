@@ -1,0 +1,42 @@
+{
+  "files": {
+    "main.css": "/time-sheet-test-app/static/css/main.806f0462.css",
+    "main.js": "/time-sheet-test-app/static/js/main.31298264.js",
+    "static/media/profile-icon.svg": "/time-sheet-test-app/static/media/profile-icon.48d8db87024c8c10be6840f7f3969b8b.svg",
+    "static/media/iJWEBXyIfDnIV7nEnX661A.woff2": "/time-sheet-test-app/static/media/iJWEBXyIfDnIV7nEnX661A.b17fbff572f8dd0c0b73.woff2",
+    "static/media/iJWKBXyIfDnIV7nBrXw.woff2": "/time-sheet-test-app/static/media/iJWKBXyIfDnIV7nBrXw.d99519627863392d2f0c.woff2",
+    "static/media/clock-sidebar-icon.svg": "/time-sheet-test-app/static/media/clock-sidebar-icon.324372892d5be9247578db238bfb825e.svg",
+    "static/media/iJWKBXyIfDnIV7nErXyi0A.woff2": "/time-sheet-test-app/static/media/iJWKBXyIfDnIV7nErXyi0A.618841475d7a2dac093d.woff2",
+    "static/media/iJWEBXyIfDnIV7nEnXC61F3f.woff2": "/time-sheet-test-app/static/media/iJWEBXyIfDnIV7nEnXC61F3f.d5bd592509f4985d5738.woff2",
+    "static/media/iJWKBXyIfDnIV7nPrXyi0A.woff2": "/time-sheet-test-app/static/media/iJWKBXyIfDnIV7nPrXyi0A.a6a758a2eadfbdf2a14d.woff2",
+    "static/media/iJWEBXyIfDnIV7nEnXq61F3f.woff2": "/time-sheet-test-app/static/media/iJWEBXyIfDnIV7nEnXq61F3f.dbfdb69d77b1bd37e6f1.woff2",
+    "static/media/iJWKBXyIfDnIV7nFrXyi0A.woff2": "/time-sheet-test-app/static/media/iJWKBXyIfDnIV7nFrXyi0A.8191f794fa7b5bfdad5d.woff2",
+    "static/media/iJWEBXyIfDnIV7nEnXO61F3f.woff2": "/time-sheet-test-app/static/media/iJWEBXyIfDnIV7nEnXO61F3f.699a029950be5fd0e782.woff2",
+    "static/media/iJWKBXyIfDnIV7nMrXyi0A.woff2": "/time-sheet-test-app/static/media/iJWKBXyIfDnIV7nMrXyi0A.423a58d2de895ee48aeb.woff2",
+    "static/media/iJWEBXyIfDnIV7nEnXy61F3f.woff2": "/time-sheet-test-app/static/media/iJWEBXyIfDnIV7nEnXy61F3f.a175ddb858dc10bcde16.woff2",
+    "static/media/iJWKBXyIfDnIV7nDrXyi0A.woff2": "/time-sheet-test-app/static/media/iJWKBXyIfDnIV7nDrXyi0A.7363e8f72b579afbdf4e.woff2",
+    "static/media/setings-sidebar-icon.svg": "/time-sheet-test-app/static/media/setings-sidebar-icon.7089557fc66191f5c91dd24013458c0f.svg",
+    "static/media/settings-icon.svg": "/time-sheet-test-app/static/media/settings-icon.1b429d1080859fa7211a99516f73f644.svg",
+    "static/media/jira-logo.svg": "/time-sheet-test-app/static/media/jira-logo.7e780df25bdf0c0336b823c5c33291a4.svg",
+    "static/media/group-sidebar-icon.svg": "/time-sheet-test-app/static/media/group-sidebar-icon.34e0bece1764e5e5a51ff4e2bd3c5c7f.svg",
+    "static/media/help-sidebar-icon.svg": "/time-sheet-test-app/static/media/help-sidebar-icon.3c17d9469ddc70fbc45e889dd20ecb2e.svg",
+    "static/media/description-icon.svg": "/time-sheet-test-app/static/media/description-icon.80290f8d7d2b6197b2b1fa7b32f499a2.svg",
+    "static/media/notification-icon.svg": "/time-sheet-test-app/static/media/notification-icon.5eeb7d1ac9414e8b8a79dc203bf97346.svg",
+    "static/media/menu-btn.svg": "/time-sheet-test-app/static/media/menu-btn.dd20993468bf333ea5b60a07314b97e9.svg",
+    "static/media/question-circle-icon.svg": "/time-sheet-test-app/static/media/question-circle-icon.77e5bf28a4f0f629cf0a806d54acda8c.svg",
+    "static/media/file-sidebar-icon.svg": "/time-sheet-test-app/static/media/file-sidebar-icon.be79f9cdc7fd046b7c76d03f3a9e80a9.svg",
+    "static/media/search-icon-2.svg": "/time-sheet-test-app/static/media/search-icon-2.be6e30255a19a6fd45cba130a469cea2.svg",
+    "index.html": "/time-sheet-test-app/index.html",
+    "static/media/nav-menu-icon.svg": "/time-sheet-test-app/static/media/nav-menu-icon.898c3358972d7809b49c2cc806c01f1d.svg",
+    "static/media/dropdown-icon.svg": "/time-sheet-test-app/static/media/dropdown-icon.64e6daba49300f89d8884d6827040a0e.svg",
+    "static/media/search-icon.svg": "/time-sheet-test-app/static/media/search-icon.d4eb7c2fa04d7c91c1170f7719bfb23a.svg",
+    "static/media/cancel-icon.svg": "/time-sheet-test-app/static/media/cancel-icon.b7ba6b1886f088ec523c6de41c52b3fa.svg",
+    "static/media/action-btn-icon.svg": "/time-sheet-test-app/static/media/action-btn-icon.3b9464fcdfd564bd9d841e79c9ec2f65.svg",
+    "main.806f0462.css.map": "/time-sheet-test-app/static/css/main.806f0462.css.map",
+    "main.31298264.js.map": "/time-sheet-test-app/static/js/main.31298264.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.806f0462.css",
+    "static/js/main.31298264.js"
+  ]
+}
