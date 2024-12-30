@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import jiraNavLogo from "../assets/images/jira-logo.svg";
-import menuBtnLogo from "../assets/images/menu-btn.svg";
-import notificationLogo from "../assets/images/notification-icon.svg";
-import questionLogo from "../assets/images/question-circle-icon.svg";
-import profileLogo from "../assets/images/profile-icon.svg";
-import settingLogo from "../assets/images/settings-icon.svg";
-import searchIcon from "../assets/images/search-icon.svg";
+import jiraNavLogo from "../../assets/images/jira-logo.svg";
+import menuBtnLogo from "../../assets/images/menu-btn.svg";
+import notificationLogo from "../../assets/images/notification-icon.svg";
+import navMenuBtnIcon from "../../assets/images/nav-menu-icon.svg";
+import questionLogo from "../../assets/images/question-circle-icon.svg";
+import profileLogo from "../../assets/images/profile-icon.svg";
+import settingLogo from "../../assets/images/settings-icon.svg";
+import searchIcon from "../../assets/images/search-icon.svg";
+import closeIcon from "../../assets/images/cancel-icon.svg";
 
 const NavBar = () => {
   const [showDropDown, setShowDropDown] = useState(false);
@@ -14,7 +16,12 @@ const NavBar = () => {
     <div className="nav-bar-section">
       <div className="nav-left-section">
         <div className="nav-logo-sec">
-          <button className="menu-btn" onClick={() => setShowDropDown(!showDropDown)}>
+          <span onClick={() => setShowDropDown(!showDropDown)}>
+            {" "}
+            <img src={navMenuBtnIcon} className="nav-menu-btn" />
+          </span>
+
+          <button className="menu-btn">
             <img src={menuBtnLogo} alt="menu-btn" className="menu-btn-icon" />
           </button>
 
@@ -76,8 +83,11 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-      {showDropDown && (
+      <div className={`backdrop nav-top ${showDropDown ? "show" : ""}`}>
         <div className="nav-menu-btn-sec responsive-dropdown-sec">
+          <span className="dropdown-cancel-btn" onClick={()=> setShowDropDown(false)}>
+            <img src={closeIcon} />
+          </span>
           <ul className="menu-btn-list">
             <li className="menu-btn-sec">
               <a>Your work</a>
@@ -110,7 +120,7 @@ const NavBar = () => {
             </li>
           </ul>
         </div>
-      )}
+      </div>
     </div>
   );
 };

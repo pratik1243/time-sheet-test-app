@@ -1,0 +1,30 @@
+.text-field-sec {
+  position: relative;
+  display: flex;
+  border: 2px solid #dfe1e6;
+  border-radius: 4px;
+  align-items: center;
+}
+
+.text-field-sec .input-field {
+  padding: 13px;
+  width: 100%;
+  outline: none;
+  border-width: 0px;
+  font-size: 14px;
+  outline: none;
+  background-color: transparent;
+}
+
+.text-field-label {
+  color: #6b778c;
+  font-weight: 500;
+  margin-bottom: 7px;
+  font-size: 14px;
+  display: block;
+}
+
+.text-field-sec .input-field-endicon {
+  height: 23px;
+  margin-right: 9px;
+}

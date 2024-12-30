@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import InputField from "./InputField";
 import dropDownIcon from "../../assets/images/dropdown-icon.svg";
+import calendarIcon from "../../assets/images/calendar-icon.png";
 import { dateFormat, months, dates } from "../../assets/utils/dateRangeUtils";
 
 const DateRangeField = () => {
-  let currentDate = new Date()
+  const currentDate = new Date()
     .toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -37,6 +38,8 @@ const DateRangeField = () => {
     "Last week",
     "Current month",
     "Last month",
+    "Last quarter",
+    "Current quarter",
   ]);
 
   const [customDateType, setCustomDateType] = useState("");
@@ -103,34 +106,28 @@ const DateRangeField = () => {
     setShowMonthPanel(false);
   };
 
-  useEffect(() => {
+  const selectedRangesFunc = () => {
     let selectedRange = [];
-    let yearMonthList = [];
-    let currentMonthIndex = dates.map((el) => el?.month).indexOf(currentDate[0]) - 1;
-
     for (let i = 0; i < dates.length; i++) {
       for (let j = 0; j < dates[i]?.days.length; j++) {
         selectedRange.push(`${dates[i]?.month} ${dates[i]?.days[j]}`);
       }
     }
+    return selectedRange;
+  };
+
+  const monthListFunc = () => {
+    let yearMonthList = [];
     for (let index = 1950; index < 2044; index++) {
       yearMonthList.push({
         year: index,
         months: Object.values(months).map((el) => el),
       });
     }
-    setDayList(selectedRange);
-    setMonthDaysPanel(yearMonthList);
-    setYear(parseInt(currentDate[2]));
-    setCalendar1(currentMonthIndex);
-    setCalendar2(currentMonthIndex + 1);
-  }, []);
+    return yearMonthList;
+  };
 
-  useEffect(() => {
-    setDateRangePanel([dates[calendar1], dates[calendar2]]);
-  }, [calendar1, calendar2]);
-
-  useEffect(() => {
+  const renderSelectedRanges = () => {
     let filterRanges = [];
     let currentDateDay = `${currentDate[0]} ${currentDate[1]}`.slice(0, -1);
     let currentDateIndex = daylist.indexOf(currentDateDay);
@@ -141,11 +138,19 @@ const DateRangeField = () => {
     if (startDateIndex < endDateIndex) {
       filterRanges = daylist.slice(startDateIndex, endDateIndex + 1);
     } else if (customDateType == "Current week") {
-      filterRanges = daylist.slice(currentDateIndex - 7, currentDateIndex);
-    } else if (customDateType == "Current month") {
-      filterRanges = daylist.slice(currentDateIndex - 30, currentDateIndex);
+      if (currentDateIndex > 362) {
+        filterRanges = [
+          ...daylist.slice(currentDateIndex - 1),
+          ...daylist.slice(0, endDateIndex + 5),
+        ];
+      } else {
+        filterRanges = daylist.slice(
+          currentDateIndex + 8,
+          currentDateIndex + 1
+        );
+      }
     } else if (customDateType == "Last week") {
-      filterRanges = daylist.slice(currentDateIndex - 14, currentDateIndex - 7);
+      filterRanges = daylist.slice(currentDateIndex - 8, currentDateIndex - 1);
     } else {
       filterRanges = daylist.slice(endDateIndex, startDateIndex + 1);
     }
@@ -160,7 +165,54 @@ const DateRangeField = () => {
       }
     }
 
-    setSelectedRanges(filterRanges);
+    return filterRanges;
+  };
+
+  const onCustomDateSelect = (ele) => {
+    setDateRangeArr([]);
+    setCustomDateType(ele);
+
+    if (ele == "Current month") {
+      setMonth(currentDate[0]);
+    } else if (ele == "Last month") {
+      let currentDate = new Date();
+      let currentMonth = currentDate.getMonth();
+      let previousMonth = currentMonth - 1;
+      let previousMonthDate = new Date(currentDate.setMonth(previousMonth));
+      let previousMonthText = previousMonthDate.toLocaleString("default", {
+        month: "long",
+      });
+
+      setMonth(previousMonthText);
+    }
+  };
+
+  const memoizedRangeRenderFunc = useMemo(
+    () => selectedRangesFunc(),
+    [daylist]
+  );
+  const memoizedMonthListRenderFunc = useMemo(() => monthListFunc(), [year]);
+  const memoizedSeletecRangesFunc = useMemo(
+    () => renderSelectedRanges(),
+    [selectedRanges, customDateType]
+  );
+
+  useEffect(() => {
+    let currentMonthIndex =
+      dates.map((el) => el?.month).indexOf(currentDate[0]) - 1;
+    setDayList(memoizedRangeRenderFunc);
+    setMonthDaysPanel(memoizedMonthListRenderFunc);
+    setYear(parseInt(currentDate[2]));
+    setCalendar1(currentMonthIndex);
+    setCalendar2(currentMonthIndex + 1);
+  }, []);
+
+  useEffect(() => {
+    setDateRangePanel([dates[calendar1], dates[calendar2]]);
+  }, [calendar1, calendar2]);
+
+  useEffect(() => {
+    setSelectedRanges(memoizedSeletecRangesFunc);
     setDateRange({
       ...dateRange,
       startDate: dateFormat(dateRangeArr, year, 0),
@@ -170,17 +222,26 @@ const DateRangeField = () => {
 
   return (
     <div className="date-range-picker">
+      <img src={calendarIcon} className="input-calendar-icon" />
       <input
         type="text"
         readOnly={true}
         className="input-field-sec"
-        value={dateRangeValue ? `${dateRangeValue?.startDate} - ${dateRangeValue?.endDate}` : "MM/dd/yyyy - MM/dd/yyyy"}
+        value={
+          dateRangeValue
+            ? `${dateRangeValue?.startDate} - ${dateRangeValue?.endDate}`
+            : "MM/dd/yyyy - MM/dd/yyyy"
+        }
         onClick={() => {
           setOpenDateRange(true);
         }}
       />
-      <button className="input-navigate-btn prev" onClick={prevDateFunc}><img src={dropDownIcon} /></button>
-      <button className="input-navigate-btn next" onClick={nextDateFunc}><img src={dropDownIcon} /></button>
+      <button className="input-navigate-btn prev" onClick={prevDateFunc}>
+        <img src={dropDownIcon} />
+      </button>
+      <button className="input-navigate-btn next" onClick={nextDateFunc}>
+        <img src={dropDownIcon} />
+      </button>
       {openDateRange && (
         <div className="datepicker-range-sec">
           <div className="date-inner-range-sec">
@@ -192,6 +253,7 @@ const DateRangeField = () => {
                     placeholder={"2/18/1993"}
                     readOnly
                     label="Start date"
+                    endIcon={calendarIcon}
                   />
                 </div>
                 <div className="input-sec">
@@ -200,6 +262,7 @@ const DateRangeField = () => {
                     readOnly
                     placeholder={"2/18/1993"}
                     label="End date"
+                    endIcon={calendarIcon}
                   />
                 </div>
               </div>
@@ -232,7 +295,10 @@ const DateRangeField = () => {
                 <div className="data-range-calendar-sec">
                   {dateRangePanel?.map((date, index) => {
                     return (
-                      <div className={`month-sec ${index == 0 ? 'pr-1' : 'pl-1'}`} key={index}>
+                      <div
+                        className={`month-sec ${index == 0 ? "pr-1" : "pl-1"}`}
+                        key={index}
+                      >
                         <div className="month-head-sec">
                           {index == 0 && (
                             <button
@@ -278,7 +344,11 @@ const DateRangeField = () => {
                                 className={`days-btn ${
                                   selectedRanges?.includes(
                                     `${date?.month} ${el}`
-                                  )
+                                  ) ||
+                                  (customDateType == "Current month" &&
+                                    month == date.month) ||
+                                  (customDateType == "Last month" &&
+                                    month == date.month)
                                     ? "ranges-selected"
                                     : ""
                                 } ${
@@ -318,14 +388,17 @@ const DateRangeField = () => {
                     key={index}
                     className="custom-type-btn"
                     onClick={() => {
-                      setDateRangeArr([]);
-                      setCustomDateType(ele);
+                      onCustomDateSelect(ele);
                     }}
                   >
                     {ele}
                   </a>
                 );
               })}
+
+              <div className="custom-days-field">
+                <input type={"text"} value={7} /> <span>Days</span>
+              </div>
             </div>
           </div>
           <div className="apply-date-sec">

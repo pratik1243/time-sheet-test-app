@@ -90,10 +90,13 @@ const HomePage = () => {
         </div>
       </div>
       <div className="date-range-filter-sec">
-        <DateRangeField />
+        <div>
+          <DateRangeField />
+        </div>
 
         <div className="group-by-sec">
-          <div className="group-btn">issue </div>
+          <span className="group-by-txt">Group by</span>
+          <div className="group-btn">Issue <img src={dropDownIcon} /></div>
         </div>
       </div>
       <TimeGridTable tableData={logTableData} />

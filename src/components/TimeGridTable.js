@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import priorityLogo from "../assets/images/priority-icon.png";
 
 const TimeGridTable = ({ tableData }) => {
-  let count = 0;
-  let totalNum = [];
   const columnsHeaders = tableData?.columns;
   const rowData = tableData?.rows;
+  const [total, setTotal] = useState(0);
 
-  const getTotal = (values) => {
-    totalNum.push(values);
-    for (let index = 0; index < totalNum.length; index++) {
-      if (totalNum[index] !== "") {
-        count = parseInt(totalNum[index]) + count;
+  const getTotal = () => {
+    let sum = 0; 
+    rowData.forEach((row) => {
+      if (row.logged !== "") {
+        sum += parseFloat(row.logged); 
       }
-    }
-
-    return count;
+    });
+    setTotal(sum); 
   };
+
+  useEffect(() => {
+    getTotal(); 
+  }, [rowData]); 
+
 
   return (
     <div className="table-container">
@@ -51,41 +54,60 @@ const TimeGridTable = ({ tableData }) => {
 
         {rowData.map((row, index) => {
           return (
-            <tr key={index} className="table-data-row">
-              {Object.entries(row).map(([key, value], i) => {
-                return (
-                  <>
-                    {rowData.length - 1 === index && i == 0 ? (
-                      <td className="table-cell" key={i}>
-                        {" "}
-                        <span className="total-table-txt">Total </span>
-                      </td>
-                    ) : (
+            <>
+              {rowData.length - 1 === index ? (
+                <tr>
+                  {Object.values(rowData.map((el) => el)[index]).map(
+                    (ele, i) => {
+                      return (
+                        <td className={`table-cell ${i !== 0 ? 'text-center-cell' : ''}`} key={i}>
+                          {i == 0 ? (
+                            <span className="total-table-txt">
+                              Total
+                            </span>
+                          ): i == 1 ? (
+                            <span className="total-table-txt">
+                              {total}
+                            </span>
+                          ) : ele ? (
+                            <span className="total-table-txt">
+                            {ele}
+                            </span>
+                          ) : (
+                            0
+                          )}
+                        </td>
+                      );
+                    }
+                  )}
+                </tr>
+              ) : (
+                <tr key={index} className="table-data-row">
+                  {Object.entries(row).map(([key, value], i) => {
+                    return (
                       <td
                         key={i}
                         className={`table-cell ${
                           key !== "issues" ? "text-center-cell" : ""
                         } ${key == "logged" ? "log-table-txt" : ""}`}
                       >
-                        {rowData.length - 1 === index ? (
-                          <>{getTotal(value)}</>
+                        {key == "issues" ? (
+                          <div className="issues-txt-sec">
+                            <img src={priorityLogo} />
+                            <span className="txt-1">{value.split(" ")[0]}</span>
+                            <span className="txt-2">
+                              {value.split(" ")[1]} {value.split(" ")[2]}
+                            </span>
+                          </div>
                         ) : (
-                          <>
-                            {key == "issues" ? (
-                              <div className="issues-txt-sec">
-                                <img src={priorityLogo} />
-                                <span className="txt-1">{value.split(" ")[0]}</span>
-                                <span className="txt-2">{value.split(" ")[1]} {value.split(" ")[2]}</span>
-                              </div>
-                            ): <>{value}</>}
-                          </>
+                          <>{value}</>
                         )}
                       </td>
-                    )}
-                  </>
-                );
-              })}
-            </tr>
+                    );
+                  })}
+                </tr>
+              )}
+            </>
           );
         })}
       </table>
