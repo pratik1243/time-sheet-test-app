@@ -5,13 +5,7 @@ import calendarIcon from "../../assets/images/calendar-icon.png";
 import { dateFormat, months, dates } from "../../assets/utils/dateRangeUtils";
 
 const DateRangeField = ({ isSingleDateRange }) => {
-  const currentDate = new Date()
-    .toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })
-    .split(" ");
+  const currentDate = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", }).split(" ");
   const [dateRangeArr, setDateRangeArr] = useState([]);
   const [selectedRanges, setSelectedRanges] = useState([]);
   const [monthDaysPanel, setMonthDaysPanel] = useState([]);
@@ -25,10 +19,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
   const [month, setMonth] = useState("");
   const [showMonthPanel, setShowMonthPanel] = useState(false);
   const [currentHoverDate, setCurrentHoverDate] = useState("");
-  const [dateRangePanel, setDateRangePanel] = useState([
-    dates[calendar1],
-    dates[calendar2],
-  ]);
+  const [dateRangePanel, setDateRangePanel] = useState(isSingleDateRange ? [dates[calendar1]] : [dates[calendar1], dates[calendar2]]);
   const [dateRange, setDateRange] = useState({
     startDate: "MM/dd/yyyy",
     endDate: "MM/dd/yyyy",
@@ -68,6 +59,26 @@ const DateRangeField = ({ isSingleDateRange }) => {
     }
   };
 
+  const prevDateFunc1 = () => {
+    if (calendar1 == 0) {
+      setCalendar1(11);
+      setYear(year - 1);
+      setMiddleEndPanel(true);
+    } else {
+      setCalendar1((prev) => prev - 1);      
+    }
+  };
+
+  const nextDateFunc1 = () => {
+    if (calendar1 == 11) {
+      setCalendar1(0);
+      setYear(year + 1);
+      setMiddleEndPanel(true);
+    } else {
+      setCalendar1((prev) => prev + 1);
+    }
+  };
+
   const dateSelect = (month, day) => {
     let dateSelected = `${month} ${day}`;
     if (dateRangeArr.length == 2) {
@@ -102,9 +113,9 @@ const DateRangeField = ({ isSingleDateRange }) => {
     let ind = i - 1;
     setYear(ele?.year);
 
-    if(isSingleDateRange){
+    if (isSingleDateRange) {
       setCalendar1(ind + 1);
-    }else{
+    } else {
       if (i == 0) {
         setCalendar1(0);
         setCalendar2(1);
@@ -112,7 +123,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
         setCalendar1(ind);
         setCalendar2(ind + 1);
       }
-    }    
+    }
     setShowMonthPanel(false);
   };
 
@@ -148,7 +159,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
     if (startDateIndex < endDateIndex) {
       filterRanges = daylist.slice(startDateIndex, endDateIndex + 1);
     } else if (customDateType == "Current week") {
-      if (currentDateIndex > 362) {
+      if (currentDateIndex > 363) {
         filterRanges = [
           ...daylist.slice(currentDateIndex - 1),
           ...daylist.slice(0, endDateIndex + 5),
@@ -181,35 +192,24 @@ const DateRangeField = ({ isSingleDateRange }) => {
   const onCustomDateSelect = (ele) => {
     setDateRangeArr([]);
     setCustomDateType(ele);
+    setCalendar1(10);
+    setCalendar2(11);
+    setYear(currentDate[2])
 
     if (ele == "Current month") {
       setMonth(currentDate[0]);
     } else if (ele == "Last month") {
-      let currentDate = new Date();
-      let currentMonth = currentDate.getMonth();
-      let previousMonth = currentMonth - 1;
-      let previousMonthDate = new Date(currentDate.setMonth(previousMonth));
-      let previousMonthText = previousMonthDate.toLocaleString("default", {
-        month: "long",
-      });
-
-      setMonth(previousMonthText);
+      let previousMonth = dates.map(el=> el?.month).indexOf(currentDate[0]) - 1
+      setMonth(dates[previousMonth].month);
     }
   };
 
-  const memoizedRangeRenderFunc = useMemo(
-    () => selectedRangesFunc(),
-    [daylist]
-  );
+  const memoizedRangeRenderFunc = useMemo(() => selectedRangesFunc(), [daylist]);
   const memoizedMonthListRenderFunc = useMemo(() => monthListFunc(), [year]);
-  const memoizedSeletecRangesFunc = useMemo(
-    () => renderSelectedRanges(),
-    [selectedRanges, customDateType]
-  );
+  const memoizedSeletecRangesFunc = useMemo(() => renderSelectedRanges(), [selectedRanges]);
 
   useEffect(() => {
-    let currentMonthIndex =
-      dates.map((el) => el?.month).indexOf(currentDate[0]) - 1;
+    let currentMonthIndex = isSingleDateRange ? dates.map((el) => el?.month).indexOf(currentDate[0]) : dates.map((el) => el?.month).indexOf(currentDate[0]) - 1;
     setDayList(memoizedRangeRenderFunc);
     setMonthDaysPanel(memoizedMonthListRenderFunc);
     setYear(parseInt(currentDate[2]));
@@ -233,6 +233,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
       endDate: dateFormat(dateRangeArr, year, 1),
     });
   }, [dateRangeArr, customDateType, currentHoverDate]);
+
 
   return (
     <div className="date-range-picker">
@@ -322,7 +323,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
                         <div className="month-head-sec">
                           {index == 0 && (
                             <button
-                              onClick={prevDateFunc}
+                              onClick={isSingleDateRange ? prevDateFunc1 : prevDateFunc}
                               className="date-navigate-btn prev"
                             >
                               <img src={dropDownIcon} />
@@ -346,7 +347,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
                           )}
                           {isSingleDateRange && (
                             <button
-                              onClick={nextDateFunc}
+                              onClick={nextDateFunc1}
                               className="date-navigate-btn next"
                             >
                               <img src={dropDownIcon} />

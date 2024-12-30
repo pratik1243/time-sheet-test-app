@@ -98,10 +98,11 @@
   cursor: pointer;
   text-align: center;
 }
+/* 
 .data-range-calendar-sec .month-sec .day-sec .days-btn:hover {
   outline: 1px solid #c7daf8;
   box-sizing: content-box;
-}
+} */
 
 .data-range-calendar-sec .month-sec .day-sec .days-btn.selected {
   background-color: #344563 !important;
