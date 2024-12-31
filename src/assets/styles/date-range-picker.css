@@ -98,6 +98,13 @@
   cursor: pointer;
   text-align: center;
 }
+
+.disable-day{
+  opacity: 0.5;
+  pointer-events: none;
+  background-color: #fff !important;
+}
+
 /* 
 .data-range-calendar-sec .month-sec .day-sec .days-btn:hover {
   outline: 1px solid #c7daf8;

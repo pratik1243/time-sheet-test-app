@@ -422,10 +422,13 @@
   bottom: 0;
 }
 
-.input-navigate-btn.prev {
+.input-navigate-btn.prev{
   left: 0;
+  bottom: 0px;
+}
+
+.input-navigate-btn.prev img{
   transform: rotateY(180deg);
-  bottom: 0.4px;
 }
 
 .input-navigate-btn.next {

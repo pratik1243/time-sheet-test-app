@@ -1,9 +1,40 @@
-export const addDays = (days) => {
+let disableDates = {
+  0: [["29", "30", "31"], ["1"]],
+  1: [["26", "27", "28", "29", "30", "31"], ["1"]],
+  2: [
+    ["23", "24", "25", "26", "27", "28"],
+    ["1", "2", "3", "4", "5"],
+  ],
+  3: [
+    ["30", "31"],
+    ["1", "2", "3"],
+  ],
+  4: [["27", "28", "29", "30"], []],
+  5: [[], ["1", "2", "3", "4", "5"]],
+  6: [
+    ["29", "30"],
+    ["1", "2"],
+  ],
+  7: [
+    ["27", "28", "29", "30", "31"],
+    ["1", "2", "3", "4", "5", "6"],
+  ],
+  8: [["31"], ["1", "2", "3", "4", "5", "6"]],
+  9: [["28", "29", "30"], ["1"]],
+  10: [
+    ["26", "27", "28", "29", "30", "31"],
+    ["1", "2", "3", "4", "5", "6"],
+  ],
+  11: [["30"], ["1", "2", "3"]],
+};
+
+export const addDays = (days, i) => {
   let daysArr = [];
   for (let index = 1; index < days + 1; index++) {
     daysArr.push(index);
   }
-  return daysArr;
+  let newDaysArr = [...disableDates[i][0], ...daysArr, ...disableDates[i][1]];
+  return newDaysArr;
 };
 
 export const dateFormat = (dateRangeArr, year, index) => {
@@ -31,50 +62,50 @@ export const months = {
 export const dates = [
   {
     month: "January",
-    days: addDays(31),
+    days: addDays(31, 0),
   },
   {
     month: "February",
-    days: addDays(28),
+    days: addDays(28, 1),
   },
   {
     month: "March",
-    days: addDays(31),
+    days: addDays(31, 2),
   },
   {
     month: "April",
-    days: addDays(30),
+    days: addDays(30, 3),
   },
   {
     month: "May",
-    days: addDays(31),
+    days: addDays(31, 4),
   },
   {
     month: "June",
-    days: addDays(30),
+    days: addDays(30, 5),
   },
   {
     month: "July",
-    days: addDays(31),
+    days: addDays(31, 6),
   },
   {
     month: "August",
-    days: addDays(31),
+    days: addDays(31, 7),
   },
   {
     month: "September",
-    days: addDays(30),
+    days: addDays(30, 8),
   },
   {
     month: "October",
-    days: addDays(31),
+    days: addDays(31, 9),
   },
   {
     month: "November",
-    days: addDays(30),
+    days: addDays(30, 10),
   },
   {
     month: "December",
-    days: addDays(31),
-  }, 
+    days: addDays(31, 11),
+  },
 ];
