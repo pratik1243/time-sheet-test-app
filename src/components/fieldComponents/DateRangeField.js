@@ -246,9 +246,6 @@ const DateRangeField = ({ isSingleDateRange }) => {
     });
   }, [dateRangeArr, currentHoverDate]);
 
-
-  console.log('ududgfgg', quaterList);
-
   return (
     <div className="date-range-picker">
       <img src={calendarIcon} className="input-calendar-icon" />
