@@ -2,19 +2,30 @@ import React, { useEffect, useMemo, useState } from "react";
 import InputField from "./InputField";
 import dropDownIcon from "../../assets/images/dropdown-icon.svg";
 import calendarIcon from "../../assets/images/calendar-icon.png";
-import { dateFormat, months, dates, getLastWeekAndCurrentDates } from "../../assets/utils/dateRangeUtils";
+import {
+  dateFormat,
+  months,
+  dates,
+  getLastWeekAndCurrentDates,
+} from "../../assets/utils/dateRangeUtils";
 
 const DateRangeField = ({ isSingleDateRange }) => {
-  
   const [daylist, setDayList] = useState([]);
   const [dateRangeArr, setDateRangeArr] = useState([]);
   const [currentHoverDate, setCurrentHoverDate] = useState("");
 
   let direction = null;
   let filterRanges = [];
-  let currentDate = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", }).split(" ");
+  let currentDate = new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+    .split(" ");
   let startDateIndex = daylist.indexOf(dateRangeArr[0]);
-  let endDateIndex = daylist.indexOf(currentHoverDate ? currentHoverDate : dateRangeArr[1]);
+  let endDateIndex = daylist.indexOf(
+    currentHoverDate ? currentHoverDate : dateRangeArr[1]
+  );
   let currentMonthIndex = dates.map((el) => el?.month).indexOf(currentDate[0]);
 
   const [selectedRanges, setSelectedRanges] = useState([]);
@@ -28,7 +39,11 @@ const DateRangeField = ({ isSingleDateRange }) => {
   const [calendar2, setCalendar2] = useState(1);
   const [month, setMonth] = useState("");
   const [showMonthPanel, setShowMonthPanel] = useState(false);
-  const [dateRangePanel, setDateRangePanel] = useState(isSingleDateRange ? [dates[calendar1]] : [dates[calendar1], dates[calendar2]]);
+  const [dateRangePanel, setDateRangePanel] = useState(
+    isSingleDateRange
+      ? [dates[calendar1]]
+      : [dates[calendar1], dates[calendar2]]
+  );
   const [dateRange, setDateRange] = useState({
     startDate: "MM/dd/yyyy",
     endDate: "MM/dd/yyyy",
@@ -50,7 +65,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
       setCalendar1(10);
       setCalendar2(11);
       setYear(year - 1);
-      if(dateRangeArr.length > 0){
+      if (dateRangeArr.length > 0) {
         setMiddleEndPanel(true);
       }
     } else {
@@ -75,11 +90,11 @@ const DateRangeField = ({ isSingleDateRange }) => {
     if (calendar1 == 0) {
       setCalendar1(11);
       setYear(year - 1);
-    if(dateRangeArr.length > 0){
-      setMiddleEndPanel(true);
-    }
+      if (dateRangeArr.length > 0) {
+        setMiddleEndPanel(true);
+      }
     } else {
-      setCalendar1((prev) => prev - 1);      
+      setCalendar1((prev) => prev - 1);
     }
   };
 
@@ -104,7 +119,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
       setDateRangeArr((prev) => [...prev, dateSelected]);
     }
     setCustomDateType("");
-    setMonth(month);    
+    setMonth(month);
   };
 
   const applyDate = () => {
@@ -117,6 +132,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
     setSelectedRanges([]);
     setDateRangeArr([]);
     setDateRangeValue();
+    setCustomDateType("");
     setShowMonthPanel(false);
     setDateRange({
       ...dateRange,
@@ -147,7 +163,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
     let selectedRange = [];
     for (let i = 0; i < dates.length; i++) {
       for (let j = 0; j < dates[i]?.days.length; j++) {
-        if(typeof dates[i]?.days[j] !== "string"){
+        if (typeof dates[i]?.days[j] !== "string") {
           selectedRange.push(`${dates[i]?.month} ${dates[i]?.days[j]}`);
         }
       }
@@ -166,78 +182,115 @@ const DateRangeField = ({ isSingleDateRange }) => {
     return yearMonthList;
   };
 
-  const renderSelectedRanges = () => { 
+  const renderSelectedRanges = () => {
     let filteredArray1 = [];
     let filteredArray2 = [];
 
-    if(dateRangeArr.length > 0 || customDateType){
-    if (startDateIndex < endDateIndex && !middleEndPanel) {
-      if(calendar1 == 11 && middleEndPanel){
-        direction = "left";
+    if (dateRangeArr.length > 0 || customDateType) {
+      if (customDateType == "Last week") {
+        filterRanges = memoizedCustomDateFunc.lastWeek;
+        setDateRangeArr([
+          filterRanges[0],
+          filterRanges[filterRanges.length - 1],
+        ]);
+      } else if (customDateType == "Current week") {
+        filterRanges = memoizedCustomDateFunc.currentWeek;
+        setDateRangeArr([
+          filterRanges[0],
+          filterRanges[filterRanges.length - 1],
+        ]);
+      } else if (customDateType == "Last month") {
+        filterRanges = memoizedCustomDateFunc.lastMonth;
+        setDateRangeArr([
+          filterRanges[0],
+          filterRanges[filterRanges.length - 1],
+        ]);
+      } else if (customDateType == "Current month") {
+        filterRanges = memoizedCustomDateFunc.currentMonth;
+        setDateRangeArr([
+          filterRanges[0],
+          filterRanges[filterRanges.length - 1],
+        ]);
+      } else if (startDateIndex < endDateIndex && !middleEndPanel) {
+        if (calendar1 == 11 && middleEndPanel) {
+          direction = "left";
+          setDir(true);
+        } else {
+          direction = "right";
+          setDir(false);
+        }
+        filterRanges = memoizedRangeRenderFunc.slice(
+          startDateIndex,
+          endDateIndex + 1
+        );
+      } else {
+        filterRanges = memoizedRangeRenderFunc.slice(
+          endDateIndex,
+          startDateIndex + 1
+        );
+        if (calendar1 == 0 && middleEndPanel) {
+          direction = "right";
+          setDir(false);
+        } else {
+          direction = "left";
+          setDir(true);
+        }
+      }
+
+      if (middleEndPanel && direction == "left") {
+        filteredArray1 = memoizedRangeRenderFunc.slice(0, startDateIndex);
+        filteredArray2 = memoizedRangeRenderFunc.slice(endDateIndex);
+        filterRanges = [...filteredArray1, ...filteredArray2];
         setDir(true);
-      }else{
-        direction = "right";
+      } else if (middleEndPanel && direction == "right") {
+        filteredArray1 = memoizedRangeRenderFunc.slice(startDateIndex);
+        filteredArray2 = memoizedRangeRenderFunc.slice(0, endDateIndex + 1);
+        filterRanges = [...filteredArray1, ...filteredArray2];
         setDir(false);
       }
-      filterRanges = memoizedRangeRenderFunc.slice(startDateIndex, endDateIndex + 1);
-    } else {
-      filterRanges = memoizedRangeRenderFunc.slice(endDateIndex, startDateIndex + 1);
-      if(calendar1 == 0 && middleEndPanel){
-        direction = "right";
-        setDir(false);
-      }else{
-        direction = "left";
-        setDir(true);
-      }     
-    }
-    
-    if (customDateType == "Last week") {      
-      filterRanges = memoizedCustomDateFunc.lastWeek;
-      setDateRangeArr([filterRanges[0], filterRanges[filterRanges.length - 1]]);
-    } else if (customDateType == "Current week") {      
-      filterRanges =  memoizedCustomDateFunc.currentWeek;
-      setDateRangeArr([filterRanges[0], filterRanges[filterRanges.length - 1]]);
-    }else if (customDateType == "Last month") {      
-      filterRanges = memoizedCustomDateFunc.lastMonth;
-      setDateRangeArr([filterRanges[0], filterRanges[filterRanges.length - 1]]);
-    } else if (customDateType == "Current month") {      
-      filterRanges =  memoizedCustomDateFunc.currentMonth;
-      setDateRangeArr([filterRanges[0], filterRanges[filterRanges.length - 1]]);
-    } 
-    if(middleEndPanel && direction == "left"){
-      filteredArray1 = memoizedRangeRenderFunc.slice(0, startDateIndex);
-      filteredArray2 = memoizedRangeRenderFunc.slice(endDateIndex);
-      filterRanges = [...filteredArray1, ...filteredArray2];
-      setDir(true);
-    } else if(middleEndPanel && direction == "right"){
-      filteredArray1 = memoizedRangeRenderFunc.slice(startDateIndex);
-      filteredArray2 = memoizedRangeRenderFunc.slice(0, endDateIndex + 1);
-      filterRanges = [...filteredArray1, ...filteredArray2];
-      setDir(false);
-    }  
     }
     return filterRanges;
   };
-  
+
   const onCustomDateSelect = (ele) => {
     setDateRangeArr([]);
     setCustomDateType(ele);
-    setYear(currentDate[2]);     
+
+    if(!middleEndPanel){
+      setYear(parseInt(currentDate[2]));
+    }
   };
 
-  const memoizedRangeRenderFunc = useMemo(() => selectedRangesFunc(), [daylist]);
-  const memoizedMonthListRenderFunc = useMemo(() => monthListFunc(), [monthDaysPanel]);
-  const memoizedCustomDateFunc = useMemo(() => getLastWeekAndCurrentDates(), []);
-  const memoizedSeletecRangesFunc = useMemo(() => renderSelectedRanges(), [selectedRanges, customDateType]);
+  const memoizedRangeRenderFunc = useMemo(
+    () => selectedRangesFunc(),
+    [daylist]
+  );
+  const memoizedMonthListRenderFunc = useMemo(
+    () => monthListFunc(),
+    [monthDaysPanel]
+  );
+  const memoizedCustomDateFunc = useMemo(
+    () => getLastWeekAndCurrentDates(),
+    []
+  );
+  const memoizedSeletecRangesFunc = useMemo(
+    () => renderSelectedRanges(),
+    [selectedRanges, customDateType]
+  );
 
   useEffect(() => {
-    setDayList(memoizedRangeRenderFunc);
-    setMonthDaysPanel(memoizedMonthListRenderFunc);
-    setYear(parseInt(currentDate[2]));
-    setMonth(currentDate[0]);
-    setCalendar1(currentMonthIndex);
-    setCalendar2(currentMonthIndex + 1);       
-  }, []);
+    if(openDateRange){
+      setDayList(memoizedRangeRenderFunc);
+      setMonthDaysPanel(memoizedMonthListRenderFunc);
+      setYear(parseInt(currentDate[2]));
+      setMonth(currentDate[0]);
+      setCalendar1(currentMonthIndex);
+      setCalendar2(currentMonthIndex + 1);
+      if(!middleEndPanel){
+        setDateRangeArr([`${currentDate[0]} ${currentDate[1].slice(0, -1)}`, `${currentDate[0]} ${currentDate[1].slice(0, -1)}`])
+      }
+    }
+  }, [openDateRange]);
 
   useEffect(() => {
     if (isSingleDateRange) {
@@ -248,13 +301,13 @@ const DateRangeField = ({ isSingleDateRange }) => {
   }, [calendar1, calendar2]);
 
   useEffect(() => {
-    setSelectedRanges(memoizedSeletecRangesFunc);
-     if(dateRangeArr.length > 0){
+    if (dateRangeArr.length > 0) {
+      setSelectedRanges(memoizedSeletecRangesFunc);
       setDateRange({
-      ...dateRange,
-      startDate: dateFormat(dateRangeArr, year, dir == true ? 1 : 0),
-      endDate: dateFormat(dateRangeArr, year, dir == true ? 0 : 1),
-      });    
+        ...dateRange,
+        startDate: dateFormat(dateRangeArr, year, dir == true ? 1 : 0),
+        endDate: dateFormat(dateRangeArr, year, dir == true ? 0 : 1),
+      });
     }
   }, [dateRangeArr, currentHoverDate]);
 
@@ -265,15 +318,25 @@ const DateRangeField = ({ isSingleDateRange }) => {
         type="text"
         readOnly={true}
         className="input-field-sec"
-        value={dateRangeValue ? `${dateRangeValue?.startDate} - ${dateRangeValue?.endDate}` : "MM/dd/yyyy - MM/dd/yyyy"}
+        value={
+          dateRangeValue
+            ? `${dateRangeValue?.startDate} - ${dateRangeValue?.endDate}`
+            : "MM/dd/yyyy - MM/dd/yyyy"
+        }
         onClick={() => {
           setOpenDateRange(true);
         }}
       />
-      <button className="input-navigate-btn prev" onClick={isSingleDateRange ? prevDateFunc1 : prevDateFunc}>
+      <button
+        className="input-navigate-btn prev"
+        onClick={isSingleDateRange ? prevDateFunc1 : prevDateFunc}
+      >
         <img src={dropDownIcon} />
       </button>
-      <button className="input-navigate-btn next" onClick={isSingleDateRange ? nextDateFunc1 : nextDateFunc}>
+      <button
+        className="input-navigate-btn next"
+        onClick={isSingleDateRange ? nextDateFunc1 : nextDateFunc}
+      >
         <img src={dropDownIcon} />
       </button>
       {openDateRange && (
@@ -342,7 +405,9 @@ const DateRangeField = ({ isSingleDateRange }) => {
                         <div className="month-head-sec">
                           {index == 0 && (
                             <button
-                              onClick={isSingleDateRange ? prevDateFunc1 : prevDateFunc}
+                              onClick={
+                                isSingleDateRange ? prevDateFunc1 : prevDateFunc
+                              }
                               className="date-navigate-btn prev"
                             >
                               <img src={dropDownIcon} />
@@ -389,15 +454,31 @@ const DateRangeField = ({ isSingleDateRange }) => {
                             return (
                               <div
                                 key={i}
-                                className={`days-btn ${memoizedSeletecRangesFunc?.includes(`${date?.month} ${el}`) ? "ranges-selected" : ""} 
-                                  ${dateRangeArr[0] == `${date?.month} ${el}` && typeof el !== "string" ||
-                                  dateRangeArr[1] == `${date?.month} ${el}` && typeof el !== "string" ? "selected" : ""
-                                } ${typeof el == "string" ? 'disable-day' : ''}`}
+                                className={`days-btn ${
+                                  memoizedSeletecRangesFunc?.includes(
+                                    `${date?.month} ${el}`
+                                  )
+                                    ? "ranges-selected"
+                                    : ""
+                                } 
+                                  ${
+                                    (dateRangeArr[0] ==
+                                      `${date?.month} ${el}` &&
+                                      typeof el !== "string") ||
+                                    (dateRangeArr[1] ==
+                                      `${date?.month} ${el}` &&
+                                      typeof el !== "string")
+                                      ? "selected"
+                                      : ""
+                                  } ${
+                                  typeof el == "string" ? "disable-day" : ""
+                                }`}
                                 onClick={() => dateSelect(date?.month, el)}
                                 onMouseOver={() => {
                                   if (
                                     dateRangeArr.length > 0 &&
-                                    dateRangeArr.length !== 2 && typeof el !== "string"
+                                    dateRangeArr.length !== 2 &&
+                                    typeof el !== "string"
                                   ) {
                                     setCurrentHoverDate(`${date?.month} ${el}`);
                                   } else {
