@@ -180,7 +180,18 @@ const DateRangeField = ({ isSingleDateRange }) => {
         setDir(false);
       }
       filterRanges = memoizedRangeRenderFunc.slice(startDateIndex, endDateIndex + 1);
-    } else if (customDateType == "Last week") {      
+    } else {
+      filterRanges = memoizedRangeRenderFunc.slice(endDateIndex, startDateIndex + 1);
+      if(calendar1 == 0 && middleEndPanel){
+        direction = "right";
+        setDir(false);
+      }else{
+        direction = "left";
+        setDir(true);
+      }     
+    }
+    
+    if (customDateType == "Last week") {      
       filterRanges = memoizedCustomDateFunc.lastWeek;
       setDateRangeArr([filterRanges[0], filterRanges[filterRanges.length - 1]]);
     } else if (customDateType == "Current week") {      
@@ -192,16 +203,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
     } else if (customDateType == "Current month") {      
       filterRanges =  memoizedCustomDateFunc.currentMonth;
       setDateRangeArr([filterRanges[0], filterRanges[filterRanges.length - 1]]);
-    } else {
-      filterRanges = memoizedRangeRenderFunc.slice(endDateIndex, startDateIndex + 1);
-      if(calendar1 == 0 && middleEndPanel){
-        direction = "right";
-        setDir(false);
-      }else{
-        direction = "left";
-        setDir(true);
-      }     
-    }
+    } 
     if(middleEndPanel && direction == "left"){
       filteredArray1 = memoizedRangeRenderFunc.slice(0, startDateIndex);
       filteredArray2 = memoizedRangeRenderFunc.slice(endDateIndex);
