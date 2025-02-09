@@ -16,7 +16,8 @@ const DateRangeField = ({ isSingleDateRange }) => {
 
   let direction = null;
   let filterRanges = [];
-  let currentDate = new Date().toLocaleDateString("en-US", {
+  let currentDate = new Date()
+    .toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -256,7 +257,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
     setDateRangeArr([]);
     setCustomDateType(ele);
 
-    if(!middleEndPanel){
+    if (!middleEndPanel) {
       setYear(parseInt(currentDate[2]));
     }
   };
@@ -279,18 +280,19 @@ const DateRangeField = ({ isSingleDateRange }) => {
   );
 
   useEffect(() => {
-    if(openDateRange){
-      setDayList(memoizedRangeRenderFunc);
-      setMonthDaysPanel(memoizedMonthListRenderFunc);
-      setYear(parseInt(currentDate[2]));
-      setMonth(currentDate[0]);
-      setCalendar1(currentMonthIndex);
-      setCalendar2(currentMonthIndex + 1);
-      if(!middleEndPanel){
-        setDateRangeArr([`${currentDate[0]} ${currentDate[1].slice(0, -1)}`, `${currentDate[0]} ${currentDate[1].slice(0, -1)}`])
-      }
+    setDayList(memoizedRangeRenderFunc);
+    setMonthDaysPanel(memoizedMonthListRenderFunc);
+    setYear(parseInt(currentDate[2]));
+    setMonth(currentDate[0]);
+    setCalendar1(currentMonthIndex);
+    setCalendar2(currentMonthIndex + 1);
+    if (!middleEndPanel) {
+      setDateRangeArr([
+        `${currentDate[0]} ${currentDate[1].slice(0, -1)}`,
+        `${currentDate[0]} ${currentDate[1].slice(0, -1)}`,
+      ]);
     }
-  }, [openDateRange]);
+  }, []);
 
   useEffect(() => {
     if (isSingleDateRange) {
