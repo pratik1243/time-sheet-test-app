@@ -131,7 +131,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
   const cancelDate = () => {
     setOpenDateRange(false);
     setSelectedRanges([]);
-    setDateRangeArr([]);
+    //setDateRangeArr([]);
     setDateRangeValue();
     setCustomDateType("");
     setShowMonthPanel(false);
