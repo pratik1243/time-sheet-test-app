@@ -38,7 +38,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
   const [year, setYear] = useState();
   const [calendar1, setCalendar1] = useState(0);
   const [calendar2, setCalendar2] = useState(1);
-  const [month, setMonth] = useState("");
+  //const [month, setMonth] = useState("");
   const [showMonthPanel, setShowMonthPanel] = useState(false);
   const [dateRangePanel, setDateRangePanel] = useState(
     isSingleDateRange
@@ -120,7 +120,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
       setDateRangeArr((prev) => [...prev, dateSelected]);
     }
     setCustomDateType("");
-    setMonth(month);
+    //setMonth(month);
   };
 
   const applyDate = () => {
@@ -129,9 +129,10 @@ const DateRangeField = ({ isSingleDateRange }) => {
   };
 
   const cancelDate = () => {
+    let dateSelected = `${currentDate[0]} ${currentDate[1].slice(0, -1)}`;
     setOpenDateRange(false);
     setSelectedRanges([]);
-    //setDateRangeArr([]);
+    setDateRangeArr([dateSelected, dateSelected]);
     setDateRangeValue();
     setCustomDateType("");
     setShowMonthPanel(false);
@@ -283,7 +284,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
     setDayList(memoizedRangeRenderFunc);
     setMonthDaysPanel(memoizedMonthListRenderFunc);
     setYear(parseInt(currentDate[2]));
-    setMonth(currentDate[0]);
+    //setMonth(currentDate[0]);
     setCalendar1(currentMonthIndex);
     setCalendar2(currentMonthIndex + 1);
     if (!middleEndPanel) {
@@ -305,13 +306,23 @@ const DateRangeField = ({ isSingleDateRange }) => {
   useEffect(() => {
     if (dateRangeArr.length > 0) {
       setSelectedRanges(memoizedSeletecRangesFunc);
-      setDateRange({
-        ...dateRange,
-        startDate: dateFormat(dateRangeArr, year, dir == true ? 1 : 0),
-        endDate: dateFormat(dateRangeArr, year, dir == true ? 0 : 1),
-      });
+
+      if (customDateType) {
+        setDateRange({
+          ...dateRange,
+          startDate: dateFormat(dateRangeArr, year, 0),
+          endDate: dateFormat(dateRangeArr, year, 1),
+        });
+      } else {
+        setDateRange({
+          ...dateRange,
+          startDate: dateFormat(dateRangeArr, year, dir == true ? 1 : 0),
+          endDate: dateFormat(dateRangeArr, year, dir == true ? 0 : 1),
+        });
+      }
     }
   }, [dateRangeArr, currentHoverDate]);
+
 
   return (
     <div className="date-range-picker">
