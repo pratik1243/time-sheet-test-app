@@ -55,8 +55,8 @@ const DateRangeField = ({ isSingleDateRange }) => {
     "Last week",
     "Current month",
     "Last month",
-    "Last quarter",
-    "Current quarter",
+    // "Last quarter",
+    // "Current quarter",
   ]);
 
   const [customDateType, setCustomDateType] = useState("");
