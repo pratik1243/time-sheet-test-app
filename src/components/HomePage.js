@@ -38,6 +38,13 @@ const HomePage = () => {
     rows: [],
   });
 
+   const [customDates, setCustomDates] = useState([
+    "Current week",
+    "Last week",
+    "Current month",
+    "Last month",
+  ]);
+
   const onCloseModal = () => {
     setLogTimeModal(false);
   };
@@ -91,11 +98,11 @@ const HomePage = () => {
       </div>
       <div className="date-range-filter-sec">
         <div className="date-range-picker-desktop">
-          <DateRangeField />
+          <DateRangeField customDates={customDates} />
         </div>
         <div className="date-range-picker-mobile">
 
-          <DateRangeField isSingleDateRange />
+          <DateRangeField isSingleDateRange customDates={customDates} />
         </div>
 
 

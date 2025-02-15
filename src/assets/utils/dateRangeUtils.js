@@ -40,26 +40,33 @@ export const addDays = (days, i) => {
 export const dateFormat = (dateRangeArr, year, index) => {
   const day = dateRangeArr[index]?.split(" ")[1];
   const month = months[dateRangeArr[index]?.split(" ")[0]];
-  const dateValue = dateRangeArr?.length > 0 && day && month ? `${day?.length == 1 ? `0${day}` : day}/${month}/${year}` : "MM/dd/yyyy";
+  const dateValue =
+    dateRangeArr?.length > 0 && day && month
+      ? `${day?.length == 1 ? `0${day}` : day}/${month}/${year}`
+      : "MM/dd/yyyy";
   return dateValue;
 };
 
-export const getLastWeekAndCurrentDates = ()=> {
+export const getLastWeekAndCurrentDates = (lastNum) => {
   const today = new Date();
   const dates = {
     currentWeek: [],
     lastWeek: [],
     currentMonth: [],
-    lastMonth: []
+    lastMonth: [],
+    getDaysBefore: [],
+    getDaysAfter: [],
   };
 
   const currentDay = today.getDay();
-  const currentMonth = today.getMonth(); 
+  const currentMonth = today.getMonth();
   const lastMonth = new Date(today);
-  lastMonth.setMonth(currentMonth - 1); 
+  lastMonth.setMonth(currentMonth - 1);
 
   const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - currentDay);
+  if (!lastNum) {
+    startOfWeek.setDate(today.getDate() - currentDay);
+  }
 
   const startOfPreviousWeek = new Date(startOfWeek);
   startOfPreviousWeek.setDate(startOfWeek.getDate() - 7);
@@ -67,24 +74,34 @@ export const getLastWeekAndCurrentDates = ()=> {
   for (let i = 0; i < 7; i++) {
     const date = new Date(startOfWeek);
     date.setDate(startOfWeek.getDate() + i);
-    dates.currentWeek.push(date.toLocaleDateString("en-US", { month: "long", day: "numeric" }));
+    dates.currentWeek.push(
+      date.toLocaleDateString("en-US", { month: "long", day: "numeric" })
+    );
   }
 
   for (let i = 0; i < 7; i++) {
     const date = new Date(startOfPreviousWeek);
     date.setDate(startOfPreviousWeek.getDate() + i);
-    dates.lastWeek.push(date.toLocaleDateString("en-US", { month: "long", day: "numeric" }));
+    dates.lastWeek.push(
+      date.toLocaleDateString("en-US", { month: "long", day: "numeric" })
+    );
   }
 
   const currentMonthDates = [];
   const currentMonthStart = new Date(today.getFullYear(), currentMonth, 1);
   const currentMonthEnd = new Date(today.getFullYear(), currentMonth + 1, 0);
-  
-  for (let i = currentMonthStart.getDate(); i <= currentMonthEnd.getDate(); i++) {
+
+  for (
+    let i = currentMonthStart.getDate();
+    i <= currentMonthEnd.getDate();
+    i++
+  ) {
     const date = new Date(today.getFullYear(), currentMonth, i);
-    currentMonthDates.push(date.toLocaleDateString("en-US", { month: "long", day: "numeric" }));
+    currentMonthDates.push(
+      date.toLocaleDateString("en-US", { month: "long", day: "numeric" })
+    );
   }
-  
+
   dates.currentMonth = currentMonthDates;
 
   const lastMonthDates = [];
@@ -93,13 +110,29 @@ export const getLastWeekAndCurrentDates = ()=> {
 
   for (let i = lastMonthStart.getDate(); i <= lastMonthEnd.getDate(); i++) {
     const date = new Date(today.getFullYear(), currentMonth - 1, i);
-    lastMonthDates.push(date.toLocaleDateString("en-US", { month: "long", day: "numeric" }));
+    lastMonthDates.push(
+      date.toLocaleDateString("en-US", { month: "long", day: "numeric" })
+    );
   }
-  
+
   dates.lastMonth = lastMonthDates;
 
+  for (let i = (lastNum - 1); i >= 0; i--) {
+    const date = new Date(startOfWeek);
+    date.setDate(startOfWeek.getDate() - i);
+    dates.getDaysBefore.push(
+      date.toLocaleDateString("en-US", { month: "long", day: "numeric" })
+    );
+  }
+
+  for (let i = 0; i < lastNum; i++) {
+    const date = new Date(startOfPreviousWeek);
+    date.setDate(startOfPreviousWeek.getDate() + i);
+    dates.getDaysAfter.push(date.toLocaleDateString("en-US", { month: "long", day: "numeric" }));
+  }
+
   return dates;
-}
+};
 
 export const months = {
   January: "Jan",

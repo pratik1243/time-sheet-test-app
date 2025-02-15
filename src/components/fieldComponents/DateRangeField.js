@@ -9,7 +9,12 @@ import {
   getLastWeekAndCurrentDates,
 } from "../../assets/utils/dateRangeUtils";
 
-const DateRangeField = ({ isSingleDateRange }) => {
+const DateRangeField = ({
+  isSingleDateRange = null,
+  onChange = null,
+  customDates = [],
+  onApply = null,
+}) => {
   const [daylist, setDayList] = useState([]);
   const [dateRangeArr, setDateRangeArr] = useState([]);
   const [currentHoverDate, setCurrentHoverDate] = useState("");
@@ -34,11 +39,12 @@ const DateRangeField = ({ isSingleDateRange }) => {
   const [dateRangeValue, setDateRangeValue] = useState();
   const [middleEndPanel, setMiddleEndPanel] = useState(false);
   const [openDateRange, setOpenDateRange] = useState(false);
+  const [yearsArray, setYearsArray] = useState([parseInt(currentDate[2])]);
+  const [customDays, setCustomDays] = useState(1);
   const [dir, setDir] = useState(false);
   const [year, setYear] = useState();
   const [calendar1, setCalendar1] = useState(0);
   const [calendar2, setCalendar2] = useState(1);
-  //const [month, setMonth] = useState("");
   const [showMonthPanel, setShowMonthPanel] = useState(false);
   const [dateRangePanel, setDateRangePanel] = useState(
     isSingleDateRange
@@ -49,15 +55,6 @@ const DateRangeField = ({ isSingleDateRange }) => {
     startDate: "MM/dd/yyyy",
     endDate: "MM/dd/yyyy",
   });
-
-  const [customDates, setCustomDates] = useState([
-    "Current week",
-    "Last week",
-    "Current month",
-    "Last month",
-    // "Last quarter",
-    // "Current quarter",
-  ]);
 
   const [customDateType, setCustomDateType] = useState("");
 
@@ -120,19 +117,22 @@ const DateRangeField = ({ isSingleDateRange }) => {
       setDateRangeArr((prev) => [...prev, dateSelected]);
     }
     setCustomDateType("");
-    //setMonth(month);
+    setCustomDays(1);
   };
 
   const applyDate = () => {
     setOpenDateRange(false);
     setDateRangeValue(dateRange);
+    onApply && onApply(dateRange);
   };
 
   const cancelDate = () => {
-    let dateSelected = `${currentDate[0]} ${currentDate[1].slice(0, -1)}`;
     setOpenDateRange(false);
     setSelectedRanges([]);
-    setDateRangeArr([dateSelected, dateSelected]);
+    setDateRangeArr([
+      `${currentDate[0]} ${currentDate[1].slice(0, -1)}`,
+      `${currentDate[0]} ${currentDate[1].slice(0, -1)}`,
+    ]);
     setDateRangeValue();
     setCustomDateType("");
     setShowMonthPanel(false);
@@ -213,6 +213,12 @@ const DateRangeField = ({ isSingleDateRange }) => {
           filterRanges[0],
           filterRanges[filterRanges.length - 1],
         ]);
+      } else if (customDays > 1) {
+        filterRanges = memoizedCustomDateFunc.getDaysBefore;
+        setDateRangeArr([
+          filterRanges[0],
+          filterRanges[filterRanges.length - 1],
+        ]);
       } else if (startDateIndex < endDateIndex && !middleEndPanel) {
         if (calendar1 == 11 && middleEndPanel) {
           direction = "left";
@@ -254,10 +260,16 @@ const DateRangeField = ({ isSingleDateRange }) => {
     return filterRanges;
   };
 
-  const onCustomDateSelect = (ele) => {
-    setDateRangeArr([]);
-    setCustomDateType(ele);
+  const getYears = () => {
+    let yearArr = [...yearsArray, year];
+    let filteredArr = yearArr.filter((el) => el !== undefined);
+    let filteredYears = [...new Set(filteredArr)].sort();
+    setYearsArray(filteredYears);
+  };
 
+  const onCustomDateSelect = (ele) => {
+    setCustomDateType(ele);
+    setCustomDays(1);
     if (!middleEndPanel) {
       setYear(parseInt(currentDate[2]));
     }
@@ -272,19 +284,19 @@ const DateRangeField = ({ isSingleDateRange }) => {
     [monthDaysPanel]
   );
   const memoizedCustomDateFunc = useMemo(
-    () => getLastWeekAndCurrentDates(),
-    []
+    () => getLastWeekAndCurrentDates(customDays > 1 ? customDays : null),
+    [customDays]
   );
   const memoizedSeletecRangesFunc = useMemo(
     () => renderSelectedRanges(),
-    [selectedRanges, customDateType]
+    [selectedRanges, customDateType, customDays]
   );
 
   useEffect(() => {
+    setSelectedRanges([]);
     setDayList(memoizedRangeRenderFunc);
     setMonthDaysPanel(memoizedMonthListRenderFunc);
     setYear(parseInt(currentDate[2]));
-    //setMonth(currentDate[0]);
     setCalendar1(currentMonthIndex);
     setCalendar2(currentMonthIndex + 1);
     if (!middleEndPanel) {
@@ -301,6 +313,7 @@ const DateRangeField = ({ isSingleDateRange }) => {
     } else {
       setDateRangePanel([dates[calendar1], dates[calendar2]]);
     }
+    getYears();
   }, [calendar1, calendar2]);
 
   useEffect(() => {
@@ -308,21 +321,16 @@ const DateRangeField = ({ isSingleDateRange }) => {
       setSelectedRanges(memoizedSeletecRangesFunc);
 
       if (customDateType) {
-        setDateRange({
-          ...dateRange,
-          startDate: dateFormat(dateRangeArr, year, 0),
-          endDate: dateFormat(dateRangeArr, year, 1),
-        });
-      } else {
-        setDateRange({
-          ...dateRange,
-          startDate: dateFormat(dateRangeArr, year, dir == true ? 1 : 0),
-          endDate: dateFormat(dateRangeArr, year, dir == true ? 0 : 1),
-        });
+        setDir(false);
       }
+      setDateRange({
+        ...dateRange,
+        startDate: dateFormat(dateRangeArr,(middleEndPanel ? yearsArray[0] : year), dir ? 1 : 0),
+        endDate: dateFormat(dateRangeArr, (middleEndPanel ? (yearsArray[yearsArray.length - 1] || yearsArray[0]) : year), dir ? 0 : 1),
+      });
     }
+    onChange && onChange(dateRange);
   }, [dateRangeArr, currentHoverDate]);
-
 
   return (
     <div className="date-range-picker">
@@ -511,25 +519,35 @@ const DateRangeField = ({ isSingleDateRange }) => {
               )}
             </div>
 
-            <div className="custom-date-sec">
-              {customDates?.map((ele, index) => {
-                return (
-                  <a
-                    key={index}
-                    className="custom-type-btn"
-                    onClick={() => {
-                      onCustomDateSelect(ele);
-                    }}
-                  >
-                    {ele}
-                  </a>
-                );
-              })}
+            {customDates.length !== 0 && (
+              <div className="custom-date-sec">
+                {customDates?.map((ele, index) => {
+                  return (
+                    <a
+                      key={index}
+                      className="custom-type-btn"
+                      onClick={() => {
+                        onCustomDateSelect(ele);
+                      }}
+                    >
+                      {ele}
+                    </a>
+                  );
+                })}
 
-              <div className="custom-days-field">
-                <input type={"text"} value={7} /> <span>Days</span>
+                <div className="custom-days-field">
+                  <input
+                    type={"number"}
+                    value={customDays}
+                    onChange={(e) => {
+                      setCustomDateType("");
+                      setCustomDays(e.target.value);
+                    }}
+                  />{" "}
+                  <span>Days</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="apply-date-sec">
             <button
