@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/time-sheet-test-app/static/css/main.2c4fd73a.css",
-    "main.js": "/time-sheet-test-app/static/js/main.d5614462.js",
+    "main.css": "/time-sheet-test-app/static/css/main.cabd6b16.css",
+    "main.js": "/time-sheet-test-app/static/js/main.9c4e34ed.js",
     "static/media/profile-icon.svg": "/time-sheet-test-app/static/media/profile-icon.48d8db87024c8c10be6840f7f3969b8b.svg",
     "static/media/iJWEBXyIfDnIV7nEnX661A.woff2": "/time-sheet-test-app/static/media/iJWEBXyIfDnIV7nEnX661A.b17fbff572f8dd0c0b73.woff2",
     "static/media/iJWKBXyIfDnIV7nBrXw.woff2": "/time-sheet-test-app/static/media/iJWKBXyIfDnIV7nBrXw.d99519627863392d2f0c.woff2",
@@ -32,11 +32,11 @@
     "static/media/search-icon.svg": "/time-sheet-test-app/static/media/search-icon.d4eb7c2fa04d7c91c1170f7719bfb23a.svg",
     "static/media/cancel-icon.svg": "/time-sheet-test-app/static/media/cancel-icon.b7ba6b1886f088ec523c6de41c52b3fa.svg",
     "static/media/action-btn-icon.svg": "/time-sheet-test-app/static/media/action-btn-icon.3b9464fcdfd564bd9d841e79c9ec2f65.svg",
-    "main.2c4fd73a.css.map": "/time-sheet-test-app/static/css/main.2c4fd73a.css.map",
-    "main.d5614462.js.map": "/time-sheet-test-app/static/js/main.d5614462.js.map"
+    "main.cabd6b16.css.map": "/time-sheet-test-app/static/css/main.cabd6b16.css.map",
+    "main.9c4e34ed.js.map": "/time-sheet-test-app/static/js/main.9c4e34ed.js.map"
   },
   "entrypoints": [
-    "static/css/main.2c4fd73a.css",
-    "static/js/main.d5614462.js"
+    "static/css/main.cabd6b16.css",
+    "static/js/main.9c4e34ed.js"
   ]
 }
