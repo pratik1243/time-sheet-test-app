@@ -128,6 +128,7 @@ const DateRangeField = ({
 
   const cancelDate = () => {
     setOpenDateRange(false);
+    setCurrentHoverDate("");
     setSelectedRanges([]);
     setDateRangeArr([
       `${currentDate[0]} ${currentDate[1].slice(0, -1)}`,
@@ -503,7 +504,7 @@ const DateRangeField = ({
                                   ) {
                                     setCurrentHoverDate(`${date?.month} ${el}`);
                                   } else {
-                                    setCurrentHoverDate();
+                                    setCurrentHoverDate("");
                                   }
                                 }}
                               >
