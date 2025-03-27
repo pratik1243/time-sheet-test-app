@@ -117,7 +117,7 @@ export const getLastWeekAndCurrentDates = (lastNum) => {
 
   dates.lastMonth = lastMonthDates;
 
-  for (let i = (lastNum - 1); i >= 0; i--) {
+  for (let i = lastNum - 1; i >= 0; i--) {
     const date = new Date(startOfWeek);
     date.setDate(startOfWeek.getDate() - i);
     dates.getDaysBefore.push(
@@ -126,9 +126,11 @@ export const getLastWeekAndCurrentDates = (lastNum) => {
   }
 
   for (let i = 0; i < lastNum; i++) {
-    const date = new Date(startOfPreviousWeek);
-    date.setDate(startOfPreviousWeek.getDate() + i);
-    dates.getDaysAfter.push(date.toLocaleDateString("en-US", { month: "long", day: "numeric" }));
+    const date = new Date(startOfWeek);
+    date.setDate(startOfWeek.getDate() + i);
+    dates.getDaysAfter.push(
+      date.toLocaleDateString("en-US", { month: "long", day: "numeric" })
+    );
   }
 
   return dates;

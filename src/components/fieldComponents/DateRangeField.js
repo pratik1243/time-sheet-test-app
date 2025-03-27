@@ -215,7 +215,7 @@ const DateRangeField = ({
           filterRanges[filterRanges.length - 1],
         ]);
       } else if (customDays > 1) {
-        filterRanges = memoizedCustomDateFunc.getDaysBefore;
+        filterRanges = memoizedCustomDateFunc.getDaysAfter;
         setDateRangeArr([
           filterRanges[0],
           filterRanges[filterRanges.length - 1],
@@ -368,7 +368,7 @@ const DateRangeField = ({
               <div className="date-range-input-sec">
                 <div className="input-sec">
                   <InputField
-                    value={dateRange.startDate}
+                    value={customDays > 1 ? dateRange.endDate : dateRange.startDate}
                     placeholder={"2/18/1993"}
                     readOnly
                     label="Start date"
@@ -377,7 +377,7 @@ const DateRangeField = ({
                 </div>
                 <div className="input-sec">
                   <InputField
-                    value={dateRange.endDate}
+                    value={customDays > 1 ? dateRange.startDate : dateRange.endDate}
                     readOnly
                     placeholder={"2/18/1993"}
                     label="End date"
@@ -540,6 +540,7 @@ const DateRangeField = ({
                   <input
                     type={"number"}
                     value={customDays}
+                    min={1}
                     onChange={(e) => {
                       setCustomDateType("");
                       setCustomDays(e.target.value);
