@@ -130,6 +130,7 @@ const DateRangeField = ({
     setOpenDateRange(false);
     setCurrentHoverDate("");
     setSelectedRanges([]);
+    setCustomDays(1);
     setDateRangeArr([
       `${currentDate[0]} ${currentDate[1].slice(0, -1)}`,
       `${currentDate[0]} ${currentDate[1].slice(0, -1)}`,
@@ -326,8 +327,18 @@ const DateRangeField = ({
       }
       setDateRange({
         ...dateRange,
-        startDate: dateFormat(dateRangeArr,(middleEndPanel ? yearsArray[0] : year), dir ? 1 : 0),
-        endDate: dateFormat(dateRangeArr, (middleEndPanel ? (yearsArray[yearsArray.length - 1] || yearsArray[0]) : year), dir ? 0 : 1),
+        startDate: dateFormat(
+          dateRangeArr,
+          middleEndPanel ? yearsArray[0] : year,
+          dir ? 1 : 0
+        ),
+        endDate: dateFormat(
+          dateRangeArr,
+          middleEndPanel
+            ? yearsArray[yearsArray.length - 1] || yearsArray[0]
+            : year,
+          dir ? 0 : 1
+        ),
       });
     }
     onChange && onChange(dateRange);
@@ -342,7 +353,15 @@ const DateRangeField = ({
         className="input-field-sec"
         value={
           dateRangeValue
-            ? `${dateRangeValue?.startDate} - ${dateRangeValue?.endDate}`
+            ? `${
+                customDays > 1
+                  ? dateRangeValue?.endDate
+                  : dateRangeValue?.startDate
+              } - ${
+                customDays > 1
+                  ? dateRangeValue?.startDate
+                  : dateRangeValue?.endDate
+              }`
             : "MM/dd/yyyy - MM/dd/yyyy"
         }
         onClick={() => {
@@ -368,7 +387,9 @@ const DateRangeField = ({
               <div className="date-range-input-sec">
                 <div className="input-sec">
                   <InputField
-                    value={customDays > 1 ? dateRange.endDate : dateRange.startDate}
+                    value={
+                      customDays > 1 ? dateRange.endDate : dateRange.startDate
+                    }
                     placeholder={"2/18/1993"}
                     readOnly
                     label="Start date"
@@ -377,7 +398,9 @@ const DateRangeField = ({
                 </div>
                 <div className="input-sec">
                   <InputField
-                    value={customDays > 1 ? dateRange.startDate : dateRange.endDate}
+                    value={
+                      customDays > 1 ? dateRange.startDate : dateRange.endDate
+                    }
                     readOnly
                     placeholder={"2/18/1993"}
                     label="End date"
